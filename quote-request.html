@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request a Quote – Rangechem</title>
+    <meta name="description" content="Request a custom quote for Rangechem industrial cleaning products.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23141414'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d63121' font-size='20' font-weight='900' font-family='sans-serif'>R</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'system-ui', 'sans-serif'] },
+                    colors: { 'rc-primary': '#141414', 'rc-red': '#d63121', 'rc-red-dark': '#b02519' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+</head>
+<body class="bg-white font-sans">
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav id="main-nav" class="w-full" role="navigation" aria-label="Main navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="nav-logo" aria-label="Rangechem home">RANGE<span>CHEM</span></a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="relative group">
+                    <a href="products.html" class="nav-link flex items-center gap-1">
+                        Products
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180"></i>
+                    </a>
+                    <div class="absolute top-full left-0 mt-2 w-48 bg-rc-primary border border-white/10 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1">
+                        <a href="category.html?type=detergents"    class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Detergents</a>
+                        <a href="category.html?type=degreasers"    class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Degreasers</a>
+                        <a href="category.html?type=disinfectants" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Disinfectants</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="quote-request.html" id="quote-badge" class="nav-link active flex items-center gap-1.5" aria-label="View quote cart">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    <span class="quote-count" id="nav-quote-count">0</span>
+                    Quote
+                </a>
+            </div>
+            <button id="hamburger-btn" class="md:hidden text-white p-1" aria-label="Toggle mobile menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-6 h-6" id="hamburger-icon"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" role="menu">
+            <a href="index.html"      class="nav-link py-2">Home</a>
+            <a href="products.html"   class="nav-link py-2">All Products</a>
+            <a href="category.html?type=detergents"    class="nav-link py-2 pl-4 text-white/60">↳ Detergents</a>
+            <a href="category.html?type=degreasers"    class="nav-link py-2 pl-4 text-white/60">↳ Degreasers</a>
+            <a href="category.html?type=disinfectants" class="nav-link py-2 pl-4 text-white/60">↳ Disinfectants</a>
+        </div>
+    </div>
+</nav>
+
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+    const nav = document.getElementById('main-nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    const btn  = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+        document.getElementById('hamburger-icon').setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+        if (window.lucide) lucide.createIcons();
+    });
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && menu.classList.contains('open')) {
+            menu.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+
+<!-- ── Page Header ─────────────────────────────────────────── -->
+<div class="bg-rc-primary pt-32 pb-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"
+         style="background-image:repeating-linear-gradient(45deg,#d63121 0,#d63121 1px,transparent 0,transparent 50%);background-size:18px 18px;"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <span class="section-eyebrow">Quote Request</span>
+        <h1 class="text-3xl md:text-4xl font-900 text-white tracking-tight mt-1 mb-2">
+            Request a <span class="text-rc-red">Custom Quote</span>
+        </h1>
+        <p class="text-white/55 text-sm max-w-xl leading-relaxed">
+            Add products to your quote cart from any page, then complete the form below.
+            Our team will respond within one business day with pricing and delivery options.
+        </p>
+    </div>
+</div>
+
+<!-- ── Main Content ──────────────────────────────────────── -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="main-content">
+
+    <!-- ── Success State (hidden by default) ─────────────── -->
+    <div id="success-state" class="hidden max-w-2xl mx-auto text-center py-16">
+        <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="check-circle-2" class="w-10 h-10 text-green-600"></i>
+        </div>
+        <h2 class="text-2xl font-900 text-gray-900 mb-3">Quote Request Sent!</h2>
+        <p class="text-gray-500 text-sm leading-relaxed mb-8">
+            Thank you! We've received your quote request and will get back to you within one business day.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="products.html" class="btn-primary">Browse More Products</a>
+            <a href="index.html" class="filter-pill">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- ── Validation error banner ───────────────────────── -->
+    <div id="error-banner"
+         class="hidden max-w-3xl mx-auto mb-8 p-4 bg-red-50 border border-red-200 rounded-xl text-red-800 text-sm"
+         role="alert" aria-live="assertive">
+        <div class="flex items-start gap-2">
+            <i data-lucide="alert-circle" class="w-4 h-4 mt-0.5 flex-shrink-0 text-rc-red"></i>
+            <ul id="error-list" class="list-disc list-inside space-y-1"></ul>
+        </div>
+    </div>
+
+    <!-- ── Form layout ───────────────────────────────────── -->
+    <div id="form-layout" class="grid lg:grid-cols-5 gap-12 max-w-6xl mx-auto">
+
+        <!-- LEFT: Cart -->
+        <div class="lg:col-span-2">
+            <h2 class="text-lg font-800 text-gray-900 mb-1">Your Quote Cart</h2>
+            <p class="text-xs text-gray-500 mb-5">Items are saved in your browser.</p>
+
+            <div id="cart-empty-state"
+                 class="hidden flex-col items-center text-center py-10 border-2 border-dashed border-gray-200 rounded-xl">
+                <i data-lucide="shopping-cart" class="w-10 h-10 text-gray-300 mb-3"></i>
+                <p class="text-gray-400 text-sm font-600">Your cart is empty.</p>
+                <a href="products.html" class="mt-4 btn-primary text-xs py-2 px-4">Browse Products</a>
+            </div>
+
+            <div id="cart-items-list" class="space-y-3"></div>
+
+            <div id="cart-footer" class="hidden mt-5 pt-5 border-t border-gray-200">
+                <div class="flex items-center justify-between text-sm font-800 text-gray-900">
+                    <span>Total Items</span>
+                    <span id="cart-total-count" class="text-rc-red">0</span>
+                </div>
+                <button id="clear-cart-btn" class="mt-3 w-full text-xs font-700 text-gray-500 hover:text-rc-red transition-colors py-2 border border-gray-200 rounded-lg hover:border-rc-red" type="button">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5 inline mr-1"></i>
+                    Clear Cart
+                </button>
+            </div>
+
+            <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-xl text-xs text-blue-700 space-y-1.5 leading-relaxed">
+                <p class="font-800 text-blue-900 flex items-center gap-1.5">
+                    <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i>
+                    Helpful Tips
+                </p>
+                <p>Add products from any catalog page. Your cart is saved even if you close the tab.</p>
+                <p>Mention in your message if you need a specific packaging size or bulk discount.</p>
+            </div>
+        </div>
+
+        <!-- RIGHT: Contact Form -->
+        <div class="lg:col-span-3">
+            <h2 class="text-lg font-800 text-gray-900 mb-5">Your Contact Details</h2>
+            <form id="quote-form" novalidate class="space-y-5">
+                <input type="hidden" id="cart-data">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label for="name" class="form-label">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="Jane Smith" class="form-control" autocomplete="name">
+                    </div>
+                    <div>
+                        <label for="company" class="form-label">Company / Organisation *</label>
+                        <input type="text" id="company" name="company" required placeholder="ABC Manufacturing (Pty) Ltd" class="form-control" autocomplete="organization">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                    <div>
+                        <label for="email" class="form-label">Email Address *</label>
+                        <input type="email" id="email" name="email" required placeholder="jane@company.co.za" class="form-control" autocomplete="email">
+                    </div>
+                    <div>
+                        <label for="phone" class="form-label">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+27 (0)12 345 6789" class="form-control" autocomplete="tel">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="message" class="form-label">Additional Information</label>
+                    <textarea id="message" name="message" rows="5"
+                              placeholder="Describe your specific needs, preferred packaging, volumes, delivery address, or any compliance requirements…"
+                              class="form-control resize-none"></textarea>
+                </div>
+
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    By submitting this form you consent to Rangechem processing your personal information
+                    for the purpose of responding to your quote request, in accordance with our
+                    <a href="#" class="underline hover:text-gray-600">POPIA Privacy Notice</a>.
+                </p>
+
+                <button type="submit" id="submit-quote-btn" class="btn-primary w-full sm:w-auto justify-center text-base py-3.5 px-10">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Send Quote Request
+                </button>
+            </form>
+        </div>
+    </div>
+
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div class="lg:col-span-2">
+                <a href="index.html" class="nav-logo mb-4 inline-flex">RANGE<span>CHEM</span></a>
+                <p class="text-sm leading-relaxed text-white/60 max-w-sm mt-3">
+                    South Africa's trusted supplier of industrial-grade cleaning chemicals.
+                </p>
+                <div class="flex gap-3 mt-5">
+                    <a href="#" aria-label="Facebook"  class="footer-social-btn"><i data-lucide="facebook"  class="w-4 h-4"></i></a>
+                    <a href="#" aria-label="LinkedIn"  class="footer-social-btn"><i data-lucide="linkedin"  class="w-4 h-4"></i></a>
+                    <a href="#" aria-label="Instagram" class="footer-social-btn"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-title">Quick Links</p>
+                <a href="index.html"                       class="footer-link">Home</a>
+                <a href="products.html"                    class="footer-link">All Products</a>
+                <a href="category.html?type=detergents"    class="footer-link">Detergents</a>
+                <a href="category.html?type=degreasers"    class="footer-link">Degreasers</a>
+                <a href="category.html?type=disinfectants" class="footer-link">Disinfectants</a>
+                <a href="quote-request.html"               class="footer-link">Request a Quote</a>
+            </div>
+            <div>
+                <p class="footer-title">Contact Us</p>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="mail" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="mailto:info@rangechem.co.za" class="footer-link mb-0">info@rangechem.co.za</a>
+                </div>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="phone" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="tel:+27123456789" class="footer-link mb-0">+27 (0)12 345 6789</a>
+                </div>
+                <div class="flex items-start gap-2 mb-4">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <span class="text-sm text-white/60 leading-relaxed">Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560</span>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-white/40">&copy; 2026 Rangechem (Pty) Ltd. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Privacy Policy</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Terms of Use</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">POPIA Notice</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/products-data.js"></script>
+<script src="js/quote.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.lucide) lucide.createIcons();
+
+    const listEl    = document.getElementById('cart-items-list');
+    const emptyEl   = document.getElementById('cart-empty-state');
+    const footerEl  = document.getElementById('cart-footer');
+    const countEl   = document.getElementById('cart-total-count');
+    const cartInput = document.getElementById('cart-data');
+    const form      = document.getElementById('quote-form');
+    const clearBtn  = document.getElementById('clear-cart-btn');
+
+    function escHtml(str) {
+        return String(str)
+            .replace(/&/g, '&amp;').replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function renderCart() {
+        const cart = window.RangechemQuote ? RangechemQuote.getCart() : [];
+        if (cartInput) cartInput.value = JSON.stringify(cart);
+        if (!listEl) return;
+        listEl.innerHTML = '';
+
+        if (cart.length === 0) {
+            emptyEl && (emptyEl.style.display = 'flex');
+            footerEl && footerEl.classList.add('hidden');
+            return;
+        }
+
+        emptyEl && (emptyEl.style.display = 'none');
+        footerEl && footerEl.classList.remove('hidden');
+        if (countEl) countEl.textContent = cart.length;
+
+        cart.forEach(item => {
+            const div = document.createElement('div');
+            div.className = 'quote-item';
+            div.innerHTML = `
+                <div class="flex-1 min-w-0">
+                    <p class="text-sm font-700 text-gray-900 truncate">${escHtml(item.name)}</p>
+                    <p class="text-xs text-gray-400 mt-0.5">${escHtml(item.category)}</p>
+                </div>
+                <button class="quote-item-remove" type="button"
+                        data-id="${escHtml(String(item.id))}"
+                        aria-label="Remove ${escHtml(item.name)} from cart">
+                    <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
+                </button>`;
+            listEl.appendChild(div);
+        });
+
+        if (window.lucide) lucide.createIcons();
+
+        listEl.querySelectorAll('.quote-item-remove').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (window.RangechemQuote) RangechemQuote.removeFromCart(btn.dataset.id);
+                renderCart();
+            });
+        });
+    }
+
+    // ── Form submit (frontend-only: validate + show success) ──
+    if (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const errors = [];
+            const name    = document.getElementById('name').value.trim();
+            const company = document.getElementById('company').value.trim();
+            const email   = document.getElementById('email').value.trim();
+            const cart    = window.RangechemQuote ? RangechemQuote.getCart() : [];
+
+            if (name.length < 2)         errors.push('Please enter your full name.');
+            if (company.length < 2)      errors.push('Please enter your company name.');
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Please enter a valid email address.');
+            if (cart.length === 0)       errors.push('Your quote cart is empty. Please add products first.');
+
+            const errorBanner = document.getElementById('error-banner');
+            const errorList   = document.getElementById('error-list');
+
+            if (errors.length > 0) {
+                errorList.innerHTML = errors.map(e => `<li>${escHtml(e)}</li>`).join('');
+                errorBanner.classList.remove('hidden');
+                errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                if (window.lucide) lucide.createIcons();
+                return;
+            }
+
+            errorBanner.classList.add('hidden');
+
+            // Show success state
+            document.getElementById('form-layout').classList.add('hidden');
+            document.getElementById('success-state').classList.remove('hidden');
+            if (window.RangechemQuote) RangechemQuote.clearCart();
+            if (window.lucide) lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('Clear all items from your quote cart?')) {
+                if (window.RangechemQuote) RangechemQuote.clearCart();
+                renderCart();
+            }
+        });
+    }
+
+    renderCart();
+});
+</script>
+</body>
+</html>

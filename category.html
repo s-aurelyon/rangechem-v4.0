@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Category – Rangechem Industrial Cleaning Solutions</title>
+    <meta name="description" content="Browse Rangechem's product range by category.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23141414'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d63121' font-size='20' font-weight='900' font-family='sans-serif'>R</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'system-ui', 'sans-serif'] },
+                    colors: { 'rc-primary': '#141414', 'rc-red': '#d63121', 'rc-red-dark': '#b02519' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+</head>
+<body class="bg-white font-sans">
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav id="main-nav" class="w-full" role="navigation" aria-label="Main navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="nav-logo" aria-label="Rangechem home">RANGE<span>CHEM</span></a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link">Home</a>
+                <div class="relative group">
+                    <a href="products.html" class="nav-link active flex items-center gap-1">
+                        Products
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180"></i>
+                    </a>
+                    <div class="absolute top-full left-0 mt-2 w-48 bg-rc-primary border border-white/10 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1">
+                        <a href="category.html?type=detergents"    id="nav-det" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Detergents</a>
+                        <a href="category.html?type=degreasers"    id="nav-deg" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Degreasers</a>
+                        <a href="category.html?type=disinfectants" id="nav-dis" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Disinfectants</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-4">
+                <a href="quote-request.html" id="quote-badge" class="nav-link flex items-center gap-1.5" aria-label="View quote cart">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    <span class="quote-count" id="nav-quote-count">0</span>
+                    Quote
+                </a>
+            </div>
+            <button id="hamburger-btn" class="md:hidden text-white p-1" aria-label="Toggle mobile menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-6 h-6" id="hamburger-icon"></i>
+            </button>
+        </div>
+        <div id="mobile-menu" role="menu">
+            <a href="index.html"      class="nav-link py-2">Home</a>
+            <a href="products.html"   class="nav-link py-2">All Products</a>
+            <a href="category.html?type=detergents"    class="nav-link py-2 pl-4 text-white/60">↳ Detergents</a>
+            <a href="category.html?type=degreasers"    class="nav-link py-2 pl-4 text-white/60">↳ Degreasers</a>
+            <a href="category.html?type=disinfectants" class="nav-link py-2 pl-4 text-white/60">↳ Disinfectants</a>
+        </div>
+    </div>
+</nav>
+
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+    const nav = document.getElementById('main-nav');
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    const btn  = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', () => {
+        const isOpen = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+        document.getElementById('hamburger-icon').setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+        if (window.lucide) lucide.createIcons();
+    });
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && menu.classList.contains('open')) {
+            menu.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
+
+<!-- ── Breadcrumb ─────────────────────────────────────────── -->
+<div class="bg-rc-primary pt-28 pb-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <nav aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2 text-xs text-white/40 font-600">
+                <li><a href="index.html" class="hover:text-white/70 transition-colors">Home</a></li>
+                <li><i data-lucide="chevron-right" class="w-3 h-3"></i></li>
+                <li><a href="products.html" class="hover:text-white/70 transition-colors">Products</a></li>
+                <li><i data-lucide="chevron-right" class="w-3 h-3"></i></li>
+                <li class="text-white/70" id="breadcrumb-label">Category</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- ── Category Hero ──────────────────────────────────────── -->
+<div class="bg-rc-primary pb-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"
+         style="background-image:repeating-linear-gradient(45deg,#d63121 0,#d63121 1px,transparent 0,transparent 50%);background-size:18px 18px;"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 relative z-10">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div>
+                <div class="flex items-center gap-3 mb-3">
+                    <div id="cat-icon-wrap" class="w-10 h-10 rounded-xl flex items-center justify-center">
+                        <i id="cat-icon" data-lucide="package" class="w-5 h-5"></i>
+                    </div>
+                    <span class="section-eyebrow" id="cat-eyebrow">Category</span>
+                </div>
+                <h1 class="text-3xl md:text-4xl font-900 text-white tracking-tight mb-3">
+                    <span id="cat-title">Products</span> <span class="text-rc-red">Range</span>
+                </h1>
+                <p class="text-white/55 text-sm max-w-2xl leading-relaxed" id="cat-desc">
+                    Browse our professional cleaning product range.
+                </p>
+            </div>
+            <!-- Other category quick-links -->
+            <div class="flex flex-wrap gap-2 md:flex-col md:items-end" id="other-cats"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Search within category ─────────────────────────────── -->
+<div class="bg-white border-b border-gray-200 sticky top-[64px] z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
+            <div class="flex-1 min-w-0">
+                <div class="search-wrap">
+                    <i data-lucide="search" class="search-icon w-4 h-4"></i>
+                    <input type="text"
+                           id="product-search"
+                           placeholder="Search within category…"
+                           autocomplete="off"
+                           aria-label="Search within category">
+                </div>
+            </div>
+            <div class="text-sm text-gray-500 font-600 whitespace-nowrap" id="result-count">5 products</div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Product Grid ──────────────────────────────────────── -->
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="main-content">
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- Populated by JS -->
+    </div>
+</main>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div class="lg:col-span-2">
+                <a href="index.html" class="nav-logo mb-4 inline-flex">RANGE<span>CHEM</span></a>
+                <p class="text-sm leading-relaxed text-white/60 max-w-sm mt-3">
+                    South Africa's trusted supplier of industrial-grade cleaning chemicals.
+                    We serve manufacturing, healthcare, food service and municipal sectors
+                    with solutions that meet the highest compliance standards.
+                </p>
+                <div class="flex gap-3 mt-5">
+                    <a href="#" aria-label="Facebook"  class="footer-social-btn"><i data-lucide="facebook"  class="w-4 h-4"></i></a>
+                    <a href="#" aria-label="LinkedIn"  class="footer-social-btn"><i data-lucide="linkedin"  class="w-4 h-4"></i></a>
+                    <a href="#" aria-label="Instagram" class="footer-social-btn"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-title">Quick Links</p>
+                <a href="index.html"                       class="footer-link">Home</a>
+                <a href="products.html"                    class="footer-link">All Products</a>
+                <a href="category.html?type=detergents"    class="footer-link">Detergents</a>
+                <a href="category.html?type=degreasers"    class="footer-link">Degreasers</a>
+                <a href="category.html?type=disinfectants" class="footer-link">Disinfectants</a>
+                <a href="quote-request.html"               class="footer-link">Request a Quote</a>
+            </div>
+            <div>
+                <p class="footer-title">Contact Us</p>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="mail" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="mailto:info@rangechem.co.za" class="footer-link mb-0">info@rangechem.co.za</a>
+                </div>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="phone" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="tel:+27123456789" class="footer-link mb-0">+27 (0)12 345 6789</a>
+                </div>
+                <div class="flex items-start gap-2 mb-4">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <span class="text-sm text-white/60 leading-relaxed">Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560</span>
+                </div>
+                <a href="https://maps.google.com/?q=Professional+House,Old+Paarl+Rd,Lood+St,Brackenfell,Cape+Town,7560"
+                   target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 text-xs font-700 text-rc-red hover:text-white transition-colors duration-200">
+                    <i data-lucide="navigation" class="w-3 h-3"></i>
+                    View on Google Maps
+                </a>
+            </div>
+        </div>
+        <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-white/40">&copy; 2026 Rangechem (Pty) Ltd. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Privacy Policy</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Terms of Use</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">POPIA Notice</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/products-data.js"></script>
+<script src="js/quote.js"></script>
+<script src="js/products.js"></script>
+<script>
+// ── Category meta ─────────────────────────────────────────
+const CAT_META = {
+    Detergents: {
+        icon: 'droplets',
+        iconBg: 'bg-blue-50',
+        iconColor: 'text-blue-600',
+        desc: 'High-performance detergents for every surface and application. From industrial floor cleaners to precision dishwash liquids, our range keeps your facility spotless.',
+    },
+    Degreasers: {
+        icon: 'zap',
+        iconBg: 'bg-green-50',
+        iconColor: 'text-green-600',
+        desc: 'Powerful degreasers formulated to dissolve oils, grease and carbon deposits from engines, kitchen equipment, workshop floors and more.',
+    },
+    Disinfectants: {
+        icon: 'shield-check',
+        iconBg: 'bg-purple-50',
+        iconColor: 'text-purple-600',
+        desc: 'Broad-spectrum disinfectants that eliminate bacteria, fungi and viruses. SANS 1828 compliant formulations for healthcare, food service and public spaces.',
+    },
+};
+
+const SLUG_MAP = { detergents: 'Detergents', degreasers: 'Degreasers', disinfectants: 'Disinfectants' };
+
+document.addEventListener('DOMContentLoaded', () => {
+    const params   = new URLSearchParams(location.search);
+    const typeSlug = params.get('type') || '';
+    const category = SLUG_MAP[typeSlug.toLowerCase()] || 'Detergents';
+    const meta     = CAT_META[category] || CAT_META.Detergents;
+
+    // Update page title & header
+    document.getElementById('page-title').textContent        = `${category} – Rangechem Industrial Cleaning`;
+    document.getElementById('cat-eyebrow').textContent       = category;
+    document.getElementById('cat-title').textContent         = category;
+    document.getElementById('cat-desc').textContent          = meta.desc;
+    document.getElementById('breadcrumb-label').textContent  = category;
+
+    // Category icon
+    const iconWrap = document.getElementById('cat-icon-wrap');
+    iconWrap.className = `w-10 h-10 rounded-xl ${meta.iconBg} flex items-center justify-center`;
+    const iconEl = document.getElementById('cat-icon');
+    iconEl.setAttribute('data-lucide', meta.icon);
+    iconEl.className = `w-5 h-5 ${meta.iconColor}`;
+
+    // Highlight active nav link
+    const navMap = { Detergents: 'nav-det', Degreasers: 'nav-deg', Disinfectants: 'nav-dis' };
+    const activeNavId = navMap[category];
+    if (activeNavId) {
+        document.getElementById('products.html') && document.getElementById('products.html').classList.remove('active');
+        const activeNav = document.getElementById(activeNavId);
+        if (activeNav) activeNav.classList.add('active');
+    }
+
+    // Other category links
+    const otherCats = document.getElementById('other-cats');
+    Object.entries(SLUG_MAP).forEach(([slug, label]) => {
+        if (label === category) return;
+        const m = CAT_META[label];
+        const a = document.createElement('a');
+        a.href = `category.html?type=${slug}`;
+        a.className = 'filter-pill-dark';
+        a.innerHTML = `<i data-lucide="${m.icon}" class="w-3.5 h-3.5"></i> ${label}`;
+        otherCats.appendChild(a);
+    });
+
+    // Update search placeholder
+    const searchEl = document.getElementById('product-search');
+    if (searchEl) searchEl.placeholder = `Search within ${category}…`;
+
+    if (window.lucide) lucide.createIcons();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="100%" height="100%">
+  <defs>
+    <!-- Bottle Body Gradient -->
+    <linearGradient id="bodyGrad500" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f3f4f6" />
+      <stop offset="20%" stop-color="#ffffff" />
+      <stop offset="80%" stop-color="#e5e7eb" />
+      <stop offset="100%" stop-color="#d1d5db" />
+    </linearGradient>
+    
+    <!-- Cap Gradient (Brand Red) -->
+    <linearGradient id="capGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b02519" />
+      <stop offset="30%" stop-color="#d63121" />
+      <stop offset="90%" stop-color="#b02519" />
+      <stop offset="100%" stop-color="#8c1b11" />
+    </linearGradient>
+
+    <!-- Drop Shadow -->
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#141414" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Shadow -->
+  <ellipse cx="200" cy="450" rx="65" ry="15" fill="#141414" opacity="0.15" filter="url(#shadow-sm)" />
+
+  <!-- Bottle Body -->
+  <g filter="url(#shadow-sm)">
+    <path d="M140,200 
+             C140,160 160,130 180,110 
+             L180,90 220,90 
+             L220,110 
+             C240,130 260,160 260,200 
+             L260,430 
+             C260,445 250,450 200,450 
+             C150,450 140,445 140,430 Z" 
+          fill="url(#bodyGrad500)" stroke="#e5e7eb" stroke-width="2" />
+  </g>
+
+  <!-- Neck rings -->
+  <rect x="175" y="95" width="50" height="4" rx="2" fill="#d1d5db" />
+  <rect x="175" y="103" width="50" height="4" rx="2" fill="#d1d5db" />
+
+  <!-- Cap -->
+  <g filter="url(#shadow-sm)">
+    <path d="M172,50 L228,50 C231,50 234,53 234,57 L234,90 L166,90 L166,57 C166,53 169,50 172,50 Z" fill="url(#capGrad)" />
+    <!-- Cap Details -->
+    <rect x="170" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+    <rect x="180" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+    <rect x="190" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+    <rect x="200" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+    <rect x="210" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+    <rect x="220" y="55" width="4" height="30" fill="#ffffff" opacity="0.15" />
+  </g>
+
+  <!-- Label -->
+  <g>
+    <rect x="139" y="240" width="122" height="120" fill="#ffffff" />
+    <!-- Label Header/Accent -->
+    <rect x="139" y="240" width="122" height="25" fill="#141414" />
+    <text x="200" y="257" font-family="Montserrat, sans-serif" font-weight="700" font-size="12" fill="#ffffff" text-anchor="middle" letter-spacing="1">500 ML</text>
+    
+    <!-- Label Content (Abstract) -->
+    <rect x="150" y="280" width="60" height="6" rx="3" fill="#6b7280" />
+    <rect x="150" y="295" width="90" height="4" rx="2" fill="#d1d5db" />
+    <rect x="150" y="305" width="70" height="4" rx="2" fill="#d1d5db" />
+    <rect x="150" y="315" width="80" height="4" rx="2" fill="#d1d5db" />
+    
+    <rect x="225" y="335" width="25" height="15" rx="2" fill="#d63121" opacity="0.8" />
+  </g>
+  
+  <!-- Highlight / Glass Reflection -->
+  <path d="M150,210 C150,180 160,150 170,130 L170,420 C160,410 150,390 150,210 Z" fill="#ffffff" opacity="0.4" />
+</svg>

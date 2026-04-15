@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangechem – Industrial Cleaning Solutions South Africa</title>
+    <meta name="description"
+        content="Rangechem supplies professional-grade detergents, degreasers and disinfectants to South African industry. Request a quote today.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rangechem – Industrial Cleaning Solutions South Africa">
+    <meta property="og:description"
+        content="Industrial cleaning solutions for every sector: healthcare, manufacturing, food service and more.">
+    <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23141414'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d63121' font-size='20' font-weight='900' font-family='sans-serif'>R</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'system-ui', 'sans-serif'] },
+                    colors: { 'rc-primary': '#141414', 'rc-red': '#d63121', 'rc-red-dark': '#b02519' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+</head>
+
+<body class="bg-white font-sans">
+
+    <!-- ── Navigation ─────────────────────────────────────────── -->
+    <nav id="main-nav" class="w-full" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between">
+                <a href="index.html" class="nav-logo" aria-label="Rangechem home">RANGE<span>CHEM</span></a>
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <div class="relative group">
+                        <a href="products.html" class="nav-link flex items-center gap-1">
+                            Products
+                            <i data-lucide="chevron-down"
+                                class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180"></i>
+                        </a>
+                        <div
+                            class="absolute top-full left-0 mt-2 w-48 bg-rc-primary border border-white/10 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1">
+                            <a href="category.html?type=detergents"
+                                class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Detergents</a>
+                            <a href="category.html?type=degreasers"
+                                class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Degreasers</a>
+                            <a href="category.html?type=disinfectants"
+                                class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Disinfectants</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="quote-request.html" id="quote-badge" class="nav-link flex items-center gap-1.5"
+                        aria-label="View quote cart">
+                        <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                        <span class="quote-count" id="nav-quote-count">0</span>
+                        Quote
+                    </a>
+                </div>
+                <button id="hamburger-btn" class="md:hidden text-white p-1" aria-label="Toggle mobile menu"
+                    aria-expanded="false">
+                    <i data-lucide="menu" class="w-6 h-6" id="hamburger-icon"></i>
+                </button>
+            </div>
+            <div id="mobile-menu" role="menu">
+                <a href="index.html" class="nav-link py-2">Home</a>
+                <a href="products.html" class="nav-link py-2">All Products</a>
+                <a href="category.html?type=detergents" class="nav-link py-2 pl-4 text-white/60">↳ Detergents</a>
+                <a href="category.html?type=degreasers" class="nav-link py-2 pl-4 text-white/60">↳ Degreasers</a>
+                <a href="category.html?type=disinfectants" class="nav-link py-2 pl-4 text-white/60">↳ Disinfectants</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Toast container -->
+    <div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+    <script>
+            (function () {
+                const nav = document.getElementById('main-nav');
+                const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 40);
+                window.addEventListener('scroll', onScroll, { passive: true });
+                onScroll();
+                const btn = document.getElementById('hamburger-btn');
+                const menu = document.getElementById('mobile-menu');
+                btn.addEventListener('click', () => {
+                    const isOpen = menu.classList.toggle('open');
+                    btn.setAttribute('aria-expanded', isOpen);
+                    document.getElementById('hamburger-icon').setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+                    if (window.lucide) lucide.createIcons();
+                });
+                document.addEventListener('click', (e) => {
+                    if (!nav.contains(e.target) && menu.classList.contains('open')) {
+                        menu.classList.remove('open');
+                        btn.setAttribute('aria-expanded', 'false');
+                    }
+                });
+            })();
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     HERO SECTION
+═══════════════════════════════════════════════════════════ -->
+    <section class="hero-section" id="hero" aria-label="Hero banner">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20">
+            <div class="max-w-2xl">
+
+                <h1 class="hero-title fade-up" style="transition-delay:80ms">
+                    Industrial Cleaning<br>
+                    <em>Redefined</em> for<br>
+                    South Africa.
+                </h1>
+                <p class="hero-subtitle fade-up" style="transition-delay:160ms">
+                    Rangechem manufactures and distributes professional-grade detergents,
+                    degreasers and disinfectants trusted by manufacturers, hospitals
+                    and municipalities across the Western Cape.
+                </p>
+                <div class="flex flex-wrap gap-4 fade-up" style="transition-delay:240ms">
+                    <a href="products.html" class="btn-primary">
+                        <i data-lucide="grid" class="w-4 h-4"></i>
+                        Browse Catalog
+                    </a>
+                    <a href="quote-request.html" class="btn-outline">
+                        <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                        Request a Quote
+                    </a>
+                </div>
+                <div class="flex flex-wrap items-center gap-6 mt-10 fade-up" style="transition-delay:320ms">
+                    <div class="flex items-center gap-1.5 text-white/60 text-xs font-600">
+                        <i data-lucide="truck" class="w-3.5 h-3.5 text-rc-red"></i> Western Cape Delivery
+                    </div>
+                    <div class="flex items-center gap-1.5 text-white/60 text-xs font-600">
+                        <i data-lucide="flask-conical" class="w-3.5 h-3.5 text-rc-red"></i> In-House Formulation
+                    </div>
+                    <div class="flex items-center gap-1.5 text-white/60 text-xs font-600">
+                        <i data-lucide="package" class="w-3.5 h-3.5 text-rc-red"></i> Bulk &amp; Retail Sizes
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+            <i data-lucide="chevron-down" class="w-6 h-6 text-white/40"></i>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     STATS STRIP
+═══════════════════════════════════════════════════════════ -->
+    <section class="bg-rc-primary py-12" aria-label="Company statistics">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div class="fade-up">
+                    <div class="stat-number">25+</div>
+                    <div class="text-white/50 text-sm font-600 mt-1 uppercase tracking-wider">Years in Industry</div>
+                </div>
+                <div class="fade-up" style="transition-delay:80ms">
+                    <div class="stat-number">300+</div>
+                    <div class="text-white/50 text-sm font-600 mt-1 uppercase tracking-wider">Products Available</div>
+                </div>
+                <div class="fade-up" style="transition-delay:160ms">
+                    <div class="stat-number">500+</div>
+                    <div class="text-white/50 text-sm font-600 mt-1 uppercase tracking-wider">Provincial Clients</div>
+                </div>
+                <div class="fade-up" style="transition-delay:240ms">
+                    <div class="stat-number">1</div>
+                    <div class="text-white/50 text-sm font-600 mt-1 uppercase tracking-wider">Province Served</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     ABOUT US
+═══════════════════════════════════════════════════════════ -->
+    <section class="py-24 bg-white" id="about" aria-labelledby="about-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="relative fade-up">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800&q=80"
+                            alt="Cape Town, Western Cape" class="w-full h-full object-cover">
+                    </div>
+                    <div
+                        class="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-xl p-4 flex items-center gap-3 border border-gray-100">
+                        <div class="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="truck" class="w-5 h-5 text-rc-red"></i>
+                        </div>
+                        <div>
+                            <div class="text-xs text-gray-500 font-600">Western Cape</div>
+                            <div class="text-lg font-900 text-rc-primary leading-none">Delivery</div>
+                        </div>
+                    </div>
+                    <div class="absolute top-6 -left-3 w-1.5 h-24 bg-rc-red rounded-full"></div>
+                </div>
+                <div class="fade-up" style="transition-delay:100ms">
+                    <span class="section-eyebrow">About Rangechem</span>
+                    <h2 class="section-title" id="about-heading">
+                        Chemistry You Can <span>Trust</span>,<br>Results You Can See.
+                    </h2>
+                    <div class="divider-red"></div>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                        Founded over two decades ago, Rangechem has grown from a specialist
+                        chemical formulator into one of the Western Cape's leading suppliers of
+                        industrial cleaning solutions. Our in-house laboratory continuously
+                        develops and refines formulations to meet the demands of modern industry.
+                    </p>
+                    <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                        We are committed to providing products that are highly effective
+                        and competitively priced for every scale of operation — from small
+                        businesses to large industrial facilities.
+                    </p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="flask-conical" class="w-4 h-4 text-rc-red"></i>
+                            </div>
+                            <span class="text-sm font-600 text-gray-800">In-house formulation lab</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="package" class="w-4 h-4 text-rc-red"></i>
+                            </div>
+                            <span class="text-sm font-600 text-gray-800">Bulk &amp; retail sizing options</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="truck" class="w-4 h-4 text-rc-red"></i>
+                            </div>
+                            <span class="text-sm font-600 text-gray-800">Dedicated delivery team</span>
+                        </div>
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
+                                <i data-lucide="map-pin" class="w-4 h-4 text-rc-red"></i>
+                            </div>
+                            <span class="text-sm font-600 text-gray-800">Western Cape coverage</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     INDUSTRIES WE SERVE
+═══════════════════════════════════════════════════════════ -->
+    <section class="py-24 bg-gray-50" id="industries" aria-labelledby="industries-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-14">
+                <span class="section-eyebrow">Industries We Serve</span>
+                <h2 class="section-title" id="industries-heading">Solutions for Every <span>Sector</span></h2>
+                <p class="text-gray-500 text-sm max-w-xl mx-auto mt-3 leading-relaxed">
+                    From hospital wards to factory floors, our range is engineered to handle
+                    the toughest cleaning challenges in the most demanding environments.
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:0ms"
+                    aria-label="Healthcare cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="hospital" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Healthcare</h3>
+                    <p class="industry-desc">Hospitals, clinics, and pharmaceutical facilities.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:50ms"
+                    aria-label="Food Service cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="factory" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Manufacturing</h3>
+                    <p class="industry-desc">Heavy industry, engineering workshops and assembly plants.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:100ms"
+                    aria-label="Education cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="graduation-cap" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Education</h3>
+                    <p class="industry-desc">Schools, universities and student residence facilities.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:150ms"
+                    aria-label="Hospitality cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="building-2" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Hospitality</h3>
+                    <p class="industry-desc">Hotels, lodges, restaurants and event venues.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:200ms"
+                    aria-label="Automotive cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="car" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Automotive</h3>
+                    <p class="industry-desc">Dealerships, panel shops and vehicle workshops.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:250ms"
+                    aria-label="Government cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="landmark" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Government</h3>
+                    <p class="industry-desc">Municipal buildings, correctional services and offices.</p>
+                </a>
+                <a href="products.html" class="industry-card fade-up" style="transition-delay:150ms"
+                    aria-label="Logistics cleaning solutions">
+                    <div class="industry-icon"><i data-lucide="ship" class="w-5 h-5"></i></div>
+                    <h3 class="industry-title">Logistics</h3>
+                    <p class="industry-desc">Warehouses, distribution centres and transport depots.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     FEATURED PRODUCTS (6 — 2 per category)
+═══════════════════════════════════════════════════════════ -->
+    <section class="py-24 bg-white" aria-labelledby="featured-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
+                <div>
+                    <span class="section-eyebrow">Our Products</span>
+                    <h2 class="section-title" id="featured-heading">Featured <span>Products</span></h2>
+                </div>
+                <a href="products.html" class="btn-primary self-start sm:self-auto">
+                    View All Products
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-grid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════
+     CTA BANNER
+═══════════════════════════════════════════════════════════ -->
+    <section class="py-20 bg-rc-primary relative overflow-hidden" aria-label="Call to action">
+        <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-rc-red/10 pointer-events-none"></div>
+        <div class="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-rc-red/6 pointer-events-none"></div>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+            <span class="section-eyebrow text-red-400">Get Started Today</span>
+            <h2 class="text-3xl md:text-4xl font-900 text-white mt-2 mb-4 tracking-tight">
+                Ready to Optimise Your<br>Cleaning Operations?
+            </h2>
+            <p class="text-white/60 text-sm mb-8 max-w-lg mx-auto leading-relaxed">
+                Tell us what you need and our sales team will recommend the right
+                products and quantities for your facility — at competitive bulk pricing.
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="quote-request.html" class="btn-primary">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    Request a Quote
+                </a>
+                <a href="mailto:info@rangechem.co.za" class="btn-outline">
+                    <i data-lucide="mail" class="w-4 h-4"></i>
+                    Email Us Directly
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────────── -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div class="lg:col-span-2">
+                    <a href="index.html" class="nav-logo mb-4 inline-flex">RANGE<span>CHEM</span></a>
+                    <p class="text-sm leading-relaxed text-white/60 max-w-sm mt-3">
+                        The Western Cape's trusted supplier of industrial-grade cleaning chemicals.
+                        We serve manufacturing, healthcare, hospitality and municipal sectors
+                        with solutions built for demanding operational environments.
+                    </p>
+                    <div class="flex gap-3 mt-5">
+                        <a href="#" aria-label="Facebook" class="footer-social-btn"><i data-lucide="facebook"
+                                class="w-4 h-4"></i></a>
+                        <a href="#" aria-label="LinkedIn" class="footer-social-btn"><i data-lucide="linkedin"
+                                class="w-4 h-4"></i></a>
+                        <a href="#" aria-label="Instagram" class="footer-social-btn"><i data-lucide="instagram"
+                                class="w-4 h-4"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <p class="footer-title">Quick Links</p>
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="products.html" class="footer-link">All Products</a>
+                    <a href="category.html?type=detergents" class="footer-link">Detergents</a>
+                    <a href="category.html?type=degreasers" class="footer-link">Degreasers</a>
+                    <a href="category.html?type=disinfectants" class="footer-link">Disinfectants</a>
+                    <a href="quote-request.html" class="footer-link">Request a Quote</a>
+                </div>
+                <div>
+                    <p class="footer-title">Contact Us</p>
+                    <div class="flex items-start gap-2 mb-3">
+                        <i data-lucide="mail" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                        <a href="mailto:info@rangechem.co.za" class="footer-link mb-0">info@rangechem.co.za</a>
+                    </div>
+                    <div class="flex items-start gap-2 mb-3">
+                        <i data-lucide="phone" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                        <a href="tel:+27123456789" class="footer-link mb-0">+27 (0)12 345 6789</a>
+                    </div>
+                    <div class="flex items-start gap-2 mb-4">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                        <span class="text-sm text-white/60 leading-relaxed">
+                            Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560
+                        </span>
+                    </div>
+                    <a href="https://maps.google.com/?q=Professional+House,Old+Paarl+Rd,Lood+St,Brackenfell,Cape+Town,7560" target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center gap-1.5 text-xs font-700 text-rc-red hover:text-white transition-colors duration-200">
+                        <i data-lucide="navigation" class="w-3 h-3"></i>
+                        View on Google Maps
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-white/40">&copy; 2026 Rangechem (Pty) Ltd. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Terms of Use</a>
+                    <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">POPIA Notice</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/quote.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) lucide.createIcons();
+
+            // Intersection Observer for fade-up
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+            // ── Featured products: 2 per category ─────────────────
+            const featured = [
+                ...window.PRODUCTS.filter(p => p.category === 'Detergents').slice(0, 2),
+                ...window.PRODUCTS.filter(p => p.category === 'Degreasers').slice(0, 2),
+                ...window.PRODUCTS.filter(p => p.category === 'Disinfectants').slice(0, 2),
+            ];
+
+            const grid = document.getElementById('featured-grid');
+            featured.forEach((p, i) => {
+                const catClass = p.category.toLowerCase();
+                const article = document.createElement('article');
+                article.className = 'product-card fade-up';
+                article.style.transitionDelay = (i * 70) + 'ms';
+                article.setAttribute('aria-label', p.name);
+                article.innerHTML = `
+            <div class="product-card-img-wrap product-svg-wrap">
+                <img src="${p.image_url}" alt="${p.name}" loading="lazy"
+                     onerror="this.src='https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=400&q=70'">
+                <span class="category-pill ${catClass}">${p.category}</span>
+            </div>
+            <div class="product-card-body">
+                <h3 class="product-card-title">${p.name}</h3>
+                <p class="product-card-desc">${p.description}</p>
+                <button class="btn-add-quote"
+                        data-id="${p.id}"
+                        data-name="${p.name}"
+                        data-category="${p.category}"
+                        aria-label="Add ${p.name} to quote">
+                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                    Add to Quote
+                </button>
+            </div>`;
+                grid.appendChild(article);
+                observer.observe(article);
+            });
+
+            if (window.lucide) lucide.createIcons();
+        });
+    </script>
+</body>
+
+</html>
