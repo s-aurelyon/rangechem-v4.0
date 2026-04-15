@@ -485,6 +485,9 @@
             });
 
             if (window.lucide) lucide.createIcons();
+
+            // Sync button states now that the grid exists
+            if (window.RangechemQuote) RangechemQuote.syncButtons();
         });
     </script>
 </body>

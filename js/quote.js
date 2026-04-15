@@ -113,19 +113,35 @@
         }
     });
 
+    // ── Sync all button states from cart ─────────────────────
+    function syncButtons() {
+        const cart = getCart();
+        document.querySelectorAll('.btn-add-quote').forEach(btn => {
+            const id = btn.dataset.id;
+            const inCart = cart.some(item => String(item.id) === String(id));
+            if (inCart) {
+                btn.classList.add('added');
+                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> In Quote`;
+            } else {
+                btn.classList.remove('added');
+                btn.innerHTML = `<i data-lucide="plus" class="w-3.5 h-3.5"></i> Add to Quote`;
+            }
+        });
+        if (window.lucide) lucide.createIcons();
+    }
+
     // ── Init ───────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
         updateBadge();
+        syncButtons();
+    });
 
-        // Mark buttons already in cart
-        const cart = getCart();
-        cart.forEach(item => {
-            document.querySelectorAll(`.btn-add-quote[data-id="${item.id}"]`).forEach(btn => {
-                btn.classList.add('added');
-                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> In Quote`;
-            });
-        });
-        if (window.lucide) lucide.createIcons();
+    // Re-sync when returning via browser back/forward cache
+    window.addEventListener('pageshow', function (e) {
+        if (e.persisted) {
+            updateBadge();
+            syncButtons();
+        }
     });
 
     // ── Expose API globally ────────────────────────────────
@@ -135,6 +151,7 @@
         removeFromCart,
         clearCart,
         updateBadge,
+        syncButtons,
         showToast,
     };
 
