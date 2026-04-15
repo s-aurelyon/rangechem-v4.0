@@ -713,10 +713,20 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     padding: 1rem 0 0.5rem;
+    background: var(--rc-primary);
+    border-radius: var(--rc-radius);
+    margin-top: 0.5rem;
+    box-shadow: var(--rc-shadow-lg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 #mobile-menu.open {
-    display: flex;
+    display: flex !important;
+}
+
+#main-nav.menu-open {
+    background: var(--rc-primary) !important;
+    backdrop-filter: blur(12px) !important;
 }
 
 /* ── Utility ──────────────────────────────────────────────── */
