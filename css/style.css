@@ -724,9 +724,26 @@ body {
     display: flex !important;
 }
 
-#main-nav.menu-open {
+#main-nav.menu-open,
+#main-nav:has(.open) {
     background: var(--rc-primary) !important;
     backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+}
+
+#hamburger-btn {
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: -10px;
+    transition: background var(--rc-transition);
+    border-radius: 8px;
+}
+
+#hamburger-btn:active {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 /* ── Utility ──────────────────────────────────────────────── */

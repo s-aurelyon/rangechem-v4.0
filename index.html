@@ -94,7 +94,8 @@
                 onScroll();
                 const btn = document.getElementById('hamburger-btn');
                 const menu = document.getElementById('mobile-menu');
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const isOpen = menu.classList.toggle('open');
                     nav.classList.toggle('menu-open', isOpen);
                     btn.setAttribute('aria-expanded', isOpen);
