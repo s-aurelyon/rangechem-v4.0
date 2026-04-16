@@ -81,7 +81,7 @@ window.PRODUCTS = [
     id: 11,
     name: 'Hospital-Grade Disinfectant',
     category: 'Disinfectants',
-    description: 'Broad-spectrum SANS 1828 compliant disinfectant. Effective against bacteria, fungi and enveloped viruses within 60 seconds.',
+    description: 'Broad-spectrum disinfectant. Effective against bacteria, fungi and enveloped viruses within 60 seconds.',
     image_url: 'assets/products/product-500ml.svg'
   },
   {
