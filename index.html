@@ -42,6 +42,9 @@
                 <a href="index.html" class="nav-logo" aria-label="Rangechem home">RANGE<span>CHEM</span></a>
                 <div class="hidden md:flex items-center gap-8">
                     <a href="index.html" class="nav-link active">Home</a>
+                    <a href="#ranges" class="nav-link">Our Ranges</a>
+                    <a href="#about" class="nav-link">About Us</a>
+                    <a href="#contact" class="nav-link">Contact</a>
                     <div class="relative group">
                         <a href="products.html" class="nav-link flex items-center gap-1">
                             Products
@@ -75,6 +78,9 @@
             </div>
             <div id="mobile-menu" role="menu" class="px-4">
                 <a href="index.html" class="nav-link py-2">Home</a>
+                <a href="#ranges" class="nav-link py-2 mobile-anchor">Our Ranges</a>
+                <a href="#about" class="nav-link py-2 mobile-anchor">About Us</a>
+                <a href="#contact" class="nav-link py-2 mobile-anchor">Contact</a>
                 <a href="products.html" class="nav-link py-2">All Products</a>
                 <a href="category.html?type=detergents" class="nav-link py-2 pl-4 text-white/60">↳ Detergents</a>
                 <a href="category.html?type=degreasers" class="nav-link py-2 pl-4 text-white/60">↳ Degreasers</a>
@@ -308,22 +314,85 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════
-     FEATURED PRODUCTS (6 — 2 per category)
+     OUR PRODUCT RANGES
 ═══════════════════════════════════════════════════════════ -->
-    <section class="py-24 bg-white" aria-labelledby="featured-heading">
+    <section class="py-24 bg-white" id="ranges" aria-labelledby="ranges-heading">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-12 gap-4">
-                <div>
-                    <span class="section-eyebrow">Our Products</span>
-                    <h2 class="section-title" id="featured-heading">Featured <span>Products</span></h2>
-                </div>
-                <a href="products.html" class="btn-primary self-start sm:self-auto">
-                    View All Products
-                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                </a>
+            <div class="text-center mb-14 fade-up">
+                <span class="section-eyebrow">What We Supply</span>
+                <h2 class="section-title" id="ranges-heading">Our Product <span>Ranges</span></h2>
+                <p class="text-gray-500 text-sm max-w-xl mx-auto mt-3 leading-relaxed">
+                    Three core ranges engineered for industrial performance — formulated and packaged at our Western Cape facility.
+                </p>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-grid">
-                <!-- Populated by JS -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+                <!-- Detergents -->
+                <div class="range-card fade-up" style="transition-delay:50ms">
+                    <div class="range-icon-wrap">
+                        <i data-lucide="droplets" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="range-title">Detergents</h3>
+                    <div class="range-divider"></div>
+                    <p class="range-desc">Professional-grade cleaning compounds for surfaces, floors, glass, laundry and dishwashing. pH-balanced formulations safe for high-frequency industrial use.</p>
+                    <ul class="range-features">
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Multi-surface &amp; floor cleaners</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Commercial dishwash liquids</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Industrial laundry compounds</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Window &amp; glass cleaners</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Concentrate &amp; RTU formats</li>
+                    </ul>
+                    <a href="category.html?type=detergents" class="range-cta">
+                        View Range <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Degreasers (featured) -->
+                <div class="range-card range-card--featured fade-up" style="transition-delay:150ms">
+                    <div class="range-icon-wrap">
+                        <i data-lucide="wrench" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="range-title">Degreasers</h3>
+                    <div class="range-divider"></div>
+                    <p class="range-desc">Heavy-duty solvent and aqueous degreasers designed to dissolve oils, lubricants and carbon deposits from machinery, engines and processing equipment.</p>
+                    <ul class="range-features">
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Citrus &amp; solvent-based degreasers</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Engine &amp; gearbox cleaners</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Kitchen &amp; extraction degreasers</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Cold parts cleaning solutions</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Alkaline foam degreasers</li>
+                    </ul>
+                    <a href="category.html?type=degreasers" class="range-cta">
+                        View Range <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <!-- Disinfectants -->
+                <div class="range-card fade-up" style="transition-delay:250ms">
+                    <div class="range-icon-wrap">
+                        <i data-lucide="shield-check" class="w-10 h-10"></i>
+                    </div>
+                    <h3 class="range-title">Disinfectants</h3>
+                    <div class="range-divider"></div>
+                    <p class="range-desc">Hospital-grade and industrial disinfectants and sanitisers that eliminate bacteria, fungi and viruses on contact — compliant with SA health standards.</p>
+                    <ul class="range-features">
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Surface &amp; floor disinfectants</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Hand sanitiser solutions</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Fogging &amp; spray disinfectants</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Hospital &amp; food-safe grades</li>
+                        <li><i data-lucide="check" class="w-3.5 h-3.5"></i> Concentrate &amp; RTU formats</li>
+                    </ul>
+                    <a href="category.html?type=disinfectants" class="range-cta">
+                        View Range <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+            </div>
+            <div class="text-center mt-12 fade-up" style="transition-delay:300ms">
+                <a href="products.html" class="btn-primary">
+                    <i data-lucide="grid" class="w-4 h-4"></i>
+                    View Full Product Catalogue
+                </a>
             </div>
         </div>
     </section>
@@ -331,7 +400,7 @@
     <!-- ═══════════════════════════════════════════════════════════
      CTA BANNER
 ═══════════════════════════════════════════════════════════ -->
-    <section class="py-20 bg-rc-primary relative overflow-hidden" aria-label="Call to action">
+    <section class="py-20 bg-rc-primary relative overflow-hidden" id="contact" aria-label="Call to action">
         <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-rc-red/10 pointer-events-none"></div>
         <div class="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-rc-red/6 pointer-events-none"></div>
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -414,7 +483,6 @@
         </div>
     </footer>
 
-    <script src="js/products-data.js"></script>
     <script src="js/quote.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -431,46 +499,19 @@
             }, { threshold: 0.12 });
             document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-            // ── Featured products: 2 per category ─────────────────
-            const featured = [
-                ...window.PRODUCTS.filter(p => p.category === 'Detergents').slice(0, 2),
-                ...window.PRODUCTS.filter(p => p.category === 'Degreasers').slice(0, 2),
-                ...window.PRODUCTS.filter(p => p.category === 'Disinfectants').slice(0, 2),
-            ];
-
-            const grid = document.getElementById('featured-grid');
-            featured.forEach((p, i) => {
-                const catClass = p.category.toLowerCase();
-                const article = document.createElement('article');
-                article.className = 'product-card fade-up';
-                article.style.transitionDelay = (i * 70) + 'ms';
-                article.setAttribute('aria-label', p.name);
-                article.innerHTML = `
-            <div class="product-card-img-wrap product-svg-wrap">
-                <img src="${p.image_url}" alt="${p.name}" loading="lazy"
-                     onerror="this.src='https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=400&q=70'">
-                <span class="category-pill ${catClass}">${p.category}</span>
-            </div>
-            <div class="product-card-body">
-                <h3 class="product-card-title">${p.name}</h3>
-                <p class="product-card-desc">${p.description}</p>
-                <button class="btn-add-quote"
-                        data-id="${p.id}"
-                        data-name="${p.name}"
-                        data-category="${p.category}"
-                        aria-label="Add ${p.name} to quote">
-                    <i data-lucide="plus" class="w-3.5 h-3.5"></i>
-                    Add to Quote
-                </button>
-            </div>`;
-                grid.appendChild(article);
-                observer.observe(article);
+            // ── Close mobile menu when anchor links are clicked ────
+            document.querySelectorAll('#mobile-menu a[href^="#"]').forEach(link => {
+                link.addEventListener('click', () => {
+                    const menu = document.getElementById('mobile-menu');
+                    const nav = document.getElementById('main-nav');
+                    const btn = document.getElementById('hamburger-btn');
+                    menu.classList.remove('open');
+                    nav.classList.remove('menu-open');
+                    btn.setAttribute('aria-expanded', 'false');
+                    document.getElementById('hamburger-icon').setAttribute('data-lucide', 'menu');
+                    if (window.lucide) lucide.createIcons();
+                });
             });
-
-            if (window.lucide) lucide.createIcons();
-
-            // Sync button states now that the grid exists
-            if (window.RangechemQuote) RangechemQuote.syncButtons();
         });
     </script>
 </body>

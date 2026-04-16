@@ -823,3 +823,142 @@ body {
         font-size: 2.25rem;
     }
 }
+
+/* ── Smooth scroll with fixed nav offset ─────────────────── */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+/* ── Hamburger – hide on desktop (override ID specificity) ── */
+@media (min-width: 768px) {
+    #hamburger-btn {
+        display: none !important;
+    }
+}
+
+/* ── Product Range Cards ──────────────────────────────────── */
+.range-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2.5rem;
+    background: #ffffff;
+    border: 1.5px solid var(--rc-gray-200);
+    border-radius: var(--rc-radius-lg);
+    transition: transform var(--rc-transition), box-shadow var(--rc-transition), border-color var(--rc-transition);
+}
+
+.range-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--rc-shadow-lg);
+    border-color: rgba(214, 49, 33, 0.4);
+}
+
+.range-card--featured {
+    background: var(--rc-primary);
+    border-color: transparent;
+}
+
+.range-card--featured:hover {
+    border-color: var(--rc-red);
+}
+
+.range-icon-wrap {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(214, 49, 33, 0.10);
+    color: var(--rc-red);
+    border-radius: 1.25rem;
+    margin-bottom: 1.5rem;
+    flex-shrink: 0;
+}
+
+.range-card--featured .range-icon-wrap {
+    background: rgba(214, 49, 33, 0.18);
+}
+
+.range-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--rc-primary);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.range-card--featured .range-title {
+    color: #ffffff;
+}
+
+.range-divider {
+    width: 40px;
+    height: 3px;
+    background: var(--rc-red);
+    border-radius: 2px;
+    margin-bottom: 1.25rem;
+}
+
+.range-desc {
+    font-size: 0.85rem;
+    color: var(--rc-gray-500);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+}
+
+.range-card--featured .range-desc {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.range-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    flex: 1;
+}
+
+.range-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--rc-gray-700);
+}
+
+.range-card--featured .range-features li {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.range-features li svg {
+    color: var(--rc-red);
+    flex-shrink: 0;
+}
+
+.range-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.6rem;
+    background: var(--rc-red);
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: var(--rc-radius);
+    text-decoration: none;
+    transition: background var(--rc-transition), transform var(--rc-transition), box-shadow var(--rc-transition);
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.range-cta:hover {
+    background: var(--rc-red-dark);
+    transform: translateX(3px);
+    box-shadow: 0 4px 14px rgba(214, 49, 33, 0.4);
+}
