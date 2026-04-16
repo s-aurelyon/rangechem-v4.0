@@ -14,7 +14,7 @@ window.PRODUCTS = [
     id: 2,
     name: 'Heavy-Duty Dishwash Liquid',
     category: 'Detergents',
-    description: 'Highly concentrated commercial dishwash liquid that cuts through grease and food residues in a single wash cycle.',
+    description: 'Highly concentrated commercial dishwash liquid that cuts through grease and residues in a single wash cycle.',
     image_url: 'assets/products/product-500ml.svg'
   },
   {
@@ -58,7 +58,7 @@ window.PRODUCTS = [
     id: 8,
     name: 'Kitchen Degreaser Spray',
     category: 'Degreasers',
-    description: 'Fast-acting RTU spray for ovens, grills, deep fryers and extraction canopies. NSF food-grade approved formulation.',
+    description: 'Fast-acting RTU spray for ovens, grills, deep fryers and extraction canopies. Commercial-grade formulation.',
     image_url: 'assets/products/product-500ml.svg'
   },
   {
@@ -72,7 +72,7 @@ window.PRODUCTS = [
     id: 10,
     name: 'Alkaline Foam Degreaser',
     category: 'Degreasers',
-    description: 'High-foam alkaline degreaser that clings to vertical surfaces. Ideal for food processing equipment and brewery tanks.',
+    description: 'High-foam alkaline degreaser that clings to vertical surfaces. Ideal for industrial processing equipment and brewery tanks.',
     image_url: 'assets/products/product-1l.svg'
   },
 
@@ -88,7 +88,7 @@ window.PRODUCTS = [
     id: 12,
     name: 'Surface Sanitiser RTU',
     category: 'Disinfectants',
-    description: 'Ready-to-use no-rinse sanitiser for high-touch surfaces and food-contact areas. Kills 99.9% of common pathogens.',
+    description: 'Ready-to-use no-rinse sanitiser for high-touch surfaces and contact areas. Kills 99.9% of common pathogens.',
     image_url: 'assets/products/product-1l.svg'
   },
   {
@@ -102,7 +102,7 @@ window.PRODUCTS = [
     id: 14,
     name: 'Quaternary Ammonium Disinfectant',
     category: 'Disinfectants',
-    description: 'QAC-based disinfectant for healthcare, food service and institutional environments. Low odour and residual activity.',
+    description: 'QAC-based disinfectant for institutional and commercial environments. Low odour and residual activity.',
     image_url: 'assets/products/product-500ml.svg'
   },
   {
