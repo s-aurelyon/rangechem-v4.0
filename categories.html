@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Ranges – Rangechem Industrial Cleaning Solutions</title>
+    <meta name="description" content="Explore Rangechem's three core product ranges — detergents, degreasers and disinfectants — formulated for South African industry.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23141414'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d63121' font-size='20' font-weight='900' font-family='sans-serif'>R</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Montserrat', 'system-ui', 'sans-serif'] },
+                    colors: { 'rc-primary': '#141414', 'rc-red': '#d63121', 'rc-red-dark': '#b02519' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+</head>
+<body class="bg-white font-sans">
+
+<!-- ── Navigation ─────────────────────────────────────────── -->
+<nav id="main-nav" class="w-full" role="navigation" aria-label="Main navigation">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between">
+            <a href="index.html" class="nav-logo" aria-label="Rangechem home">RANGE<span>CHEM</span></a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+                <div class="relative group">
+                    <a href="categories.html" class="nav-link active flex items-center gap-1">
+                        Products
+                        <i data-lucide="chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180"></i>
+                    </a>
+                    <div class="absolute top-full left-0 mt-2 w-52 bg-rc-primary border border-white/10 rounded-lg shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 py-1">
+                        <a href="category.html?type=detergents"    class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Detergents</a>
+                        <a href="category.html?type=degreasers"    class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Degreasers</a>
+                        <a href="category.html?type=disinfectants" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">Disinfectants</a>
+                        <div class="border-t border-white/10 mt-1 pt-1">
+                            <a href="products.html" class="block px-4 py-2.5 text-sm text-white/70 hover:text-white hover:bg-white/5">All Products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Quote and Hamburger -->
+            <div class="flex items-center gap-4">
+                <a href="quote-request.html" id="quote-badge" class="nav-link flex items-center gap-1.5" aria-label="View quote cart">
+                    <i data-lucide="clipboard-list" class="w-5 h-5"></i>
+                    <span class="quote-count" id="nav-quote-count">0</span>
+                    <span class="hidden sm:inline">Quote</span>
+                </a>
+                <button id="hamburger-btn" class="md:hidden text-white p-1" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <i data-lucide="menu" class="w-6 h-6" id="hamburger-icon"></i>
+                </button>
+            </div>
+        </div>
+        <div id="mobile-menu" role="menu" class="px-4">
+            <a href="index.html" class="nav-link py-2">Home</a>
+            <a href="index.html#contact" class="nav-link py-2">Contact</a>
+            <a href="categories.html" class="nav-link py-2">Products</a>
+            <a href="category.html?type=detergents"    class="nav-link py-2 pl-4 text-white/60">↳ Detergents</a>
+            <a href="category.html?type=degreasers"    class="nav-link py-2 pl-4 text-white/60">↳ Degreasers</a>
+            <a href="category.html?type=disinfectants" class="nav-link py-2 pl-4 text-white/60">↳ Disinfectants</a>
+            <a href="products.html"                    class="nav-link py-2 pl-4 text-white/60">↳ All Products</a>
+        </div>
+    </div>
+</nav>
+
+<div id="toast-container" aria-live="polite" aria-atomic="false"></div>
+
+<script>
+(function () {
+    const nav = document.getElementById('main-nav');
+    nav.classList.add('scrolled');
+    const btn  = document.getElementById('hamburger-btn');
+    const menu = document.getElementById('mobile-menu');
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = menu.classList.toggle('open');
+        nav.classList.toggle('menu-open', isOpen);
+        btn.setAttribute('aria-expanded', isOpen);
+        document.getElementById('hamburger-icon').setAttribute('data-lucide', isOpen ? 'x' : 'menu');
+        if (window.lucide) lucide.createIcons();
+    });
+    document.addEventListener('click', (e) => {
+        if (!nav.contains(e.target) && menu.classList.contains('open')) {
+            menu.classList.remove('open');
+            nav.classList.remove('menu-open');
+            btn.setAttribute('aria-expanded', 'false');
+            document.getElementById('hamburger-icon').setAttribute('data-lucide', 'menu');
+            if (window.lucide) lucide.createIcons();
+        }
+    });
+})();
+</script>
+
+<!-- ── Page Header ───────────────────────────────────────── -->
+<div class="bg-rc-primary pt-32 pb-16 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10 pointer-events-none"
+         style="background-image:repeating-linear-gradient(45deg,#d63121 0,#d63121 1px,transparent 0,transparent 50%);background-size:18px 18px;"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <span class="section-eyebrow">What We Supply</span>
+        <h1 class="text-3xl md:text-4xl font-900 text-white tracking-tight mt-1 mb-2">
+            Our Product <span class="text-rc-red">Ranges</span>
+        </h1>
+        <p class="text-white/55 text-sm max-w-xl leading-relaxed">
+            Three core ranges engineered for industrial performance — formulated and packaged at our Western Cape facility.
+        </p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     DETERGENTS — image right
+═══════════════════════════════════════════════════════════ -->
+<section class="py-24 bg-white" id="detergents" aria-labelledby="det-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Text -->
+            <div class="fade-up">
+                <span class="section-eyebrow">Range 01</span>
+                <h2 class="section-title" id="det-heading">
+                    <span>Detergents</span>
+                </h2>
+                <div class="divider-red"></div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                    Professional-grade cleaning compounds for surfaces, floors, glass, laundry and dishwashing. Our pH-balanced formulations are engineered to be safe for high-frequency industrial use while delivering consistent, powerful results.
+                </p>
+                <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                    Suitable for manufacturing facilities, hospitality operations, educational institutions and any environment that demands reliable daily cleaning performance.
+                </p>
+                <ul class="space-y-2 mb-8">
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Multi-surface &amp; floor cleaners
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Commercial dishwash liquids
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Industrial laundry compounds
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Window &amp; glass cleaners
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Concentrate &amp; RTU formats
+                    </li>
+                </ul>
+                <a href="category.html?type=detergents" class="btn-primary">
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    View Detergents Range
+                </a>
+            </div>
+
+            <!-- Image -->
+            <div class="relative fade-up" style="transition-delay:100ms">
+                <div class="rounded-2xl overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=800&q=80"
+                         alt="Professional industrial cleaning in action" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute top-6 -right-3 w-1.5 h-24 bg-rc-red rounded-full"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     DEGREASERS — image left
+═══════════════════════════════════════════════════════════ -->
+<section class="py-24 bg-gray-50" id="degreasers" aria-labelledby="deg-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Image -->
+            <div class="relative fade-up order-2 lg:order-1">
+                    <div class="rounded-2xl overflow-hidden aspect-[4/3]">
+                        <img src="https://images.unsplash.com/photo-1565688534245-05d6b5be184a?auto=format&fit=crop&w=1200&q=80"
+                            alt="Mechanic degreasing engine components in a workshop" class="w-full h-full object-cover">
+                    </div>
+                <div class="absolute top-6 -left-3 w-1.5 h-24 bg-rc-red rounded-full"></div>
+            </div>
+
+            <!-- Text -->
+            <div class="fade-up order-1 lg:order-2" style="transition-delay:100ms">
+                <span class="section-eyebrow">Range 02</span>
+                <h2 class="section-title" id="deg-heading">
+                    <span>Degreasers</span>
+                </h2>
+                <div class="divider-red"></div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                    Heavy-duty solvent and aqueous degreasers designed to dissolve oils, lubricants and carbon deposits from machinery, engines and processing equipment. Our formulations cut through the toughest industrial soiling with minimal effort.
+                </p>
+                <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                    Trusted by automotive workshops, manufacturing plants, food processing facilities and engineering companies across the Western Cape.
+                </p>
+                <ul class="space-y-2 mb-8">
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Citrus &amp; solvent-based degreasers
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Engine &amp; gearbox cleaners
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Kitchen &amp; extraction degreasers
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Cold parts cleaning solutions
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Alkaline foam degreasers
+                    </li>
+                </ul>
+                <a href="category.html?type=degreasers" class="btn-primary">
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    View Degreasers Range
+                </a>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════
+     DISINFECTANTS — image right
+═══════════════════════════════════════════════════════════ -->
+<section class="py-24 bg-white" id="disinfectants" aria-labelledby="dis-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+            <!-- Text -->
+            <div class="fade-up">
+                <span class="section-eyebrow">Range 03</span>
+                <h2 class="section-title" id="dis-heading">
+                    <span>Disinfectants</span>
+                </h2>
+                <div class="divider-red"></div>
+                <p class="text-gray-600 text-sm leading-relaxed mb-4">
+                    Hospital-grade and industrial disinfectants and sanitisers that eliminate bacteria, fungi and viruses on contact — compliant with SA health standards. Our range covers surface disinfection, hand hygiene and large-scale fogging applications.
+                </p>
+                <p class="text-gray-600 text-sm leading-relaxed mb-8">
+                    Used by healthcare facilities, food processing plants, government buildings and hospitality businesses that require verified, consistent pathogen control.
+                </p>
+                <ul class="space-y-2 mb-8">
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Surface &amp; floor disinfectants
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Hand sanitiser solutions
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Fogging &amp; spray disinfectants
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Hospital &amp; food-safe grades
+                    </li>
+                    <li class="flex items-center gap-2.5 text-sm font-600 text-gray-800">
+                        <div class="w-5 h-5 rounded-full bg-red-50 flex items-center justify-center flex-shrink-0">
+                            <i data-lucide="check" class="w-3 h-3 text-rc-red"></i>
+                        </div>
+                        Concentrate &amp; RTU formats
+                    </li>
+                </ul>
+                <a href="category.html?type=disinfectants" class="btn-primary">
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    View Disinfectants Range
+                </a>
+            </div>
+
+            <!-- Image -->
+            <div class="relative fade-up" style="transition-delay:100ms">
+                <div class="rounded-2xl overflow-hidden aspect-[4/3]">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80"
+                        alt="Applying disinfectant spray to a high-touch surface" class="w-full h-full object-cover">
+                </div>
+                <div class="absolute top-6 -right-3 w-1.5 h-24 bg-rc-red rounded-full"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<!-- ── CTA Banner ─────────────────────────────────────────── -->
+<section class="py-20 bg-rc-primary relative overflow-hidden" aria-label="Call to action">
+    <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-rc-red/10 pointer-events-none"></div>
+    <div class="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-rc-red/6 pointer-events-none"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <span class="section-eyebrow text-red-400">Browse the Full Range</span>
+        <h2 class="text-3xl md:text-4xl font-900 text-white mt-2 mb-4 tracking-tight">
+            See Every Product<br>We Manufacture
+        </h2>
+        <p class="text-white/60 text-sm mb-8 max-w-lg mx-auto leading-relaxed">
+            View our complete product catalogue or request a quote — our sales team will recommend the right products and quantities for your operation.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="products.html" class="btn-primary">
+                <i data-lucide="grid" class="w-4 h-4"></i>
+                View All Products
+            </a>
+            <a href="quote-request.html" class="btn-outline">
+                <i data-lucide="clipboard-list" class="w-4 h-4"></i>
+                Request a Quote
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ── Footer ─────────────────────────────────────────────── -->
+<footer class="site-footer" role="contentinfo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div class="lg:col-span-2">
+                <a href="index.html" class="nav-logo mb-4 inline-flex">RANGE<span>CHEM</span></a>
+                <p class="text-sm leading-relaxed text-white/60 max-w-sm mt-3">
+                    The Western Cape's trusted supplier of industrial-grade cleaning chemicals.
+                    We serve manufacturing, hospitality and municipal sectors
+                    with solutions built for demanding operational environments.
+                </p>
+                <div class="flex gap-3 mt-5">
+                </div>
+            </div>
+            <div>
+                <p class="footer-title">Quick Links</p>
+                <a href="index.html"                       class="footer-link">Home</a>
+                <a href="categories.html"                  class="footer-link">Products</a>
+                <a href="category.html?type=detergents"    class="footer-link">Detergents</a>
+                <a href="category.html?type=degreasers"    class="footer-link">Degreasers</a>
+                <a href="category.html?type=disinfectants" class="footer-link">Disinfectants</a>
+                <a href="products.html"                    class="footer-link">All Products</a>
+                <a href="quote-request.html"               class="footer-link">Request a Quote</a>
+            </div>
+            <div>
+                <p class="footer-title">Contact Us</p>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="mail" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="mailto:info@rangechem.co.za" class="footer-link mb-0">info@rangechem.co.za</a>
+                </div>
+                <div class="flex items-start gap-2 mb-3">
+                    <i data-lucide="phone" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <a href="tel:+27123456789" class="footer-link mb-0">+27 (0)12 345 6789</a>
+                </div>
+                <div class="flex items-start gap-2 mb-4">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
+                    <span class="text-sm text-white/60 leading-relaxed">
+                        Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560
+                    </span>
+                </div>
+                <a href="https://maps.google.com/?q=Professional+House,Old+Paarl+Rd,Lood+St,Brackenfell,Cape+Town,7560"
+                   target="_blank" rel="noopener noreferrer"
+                   class="inline-flex items-center gap-1.5 text-xs font-700 text-rc-red hover:text-white transition-colors duration-200">
+                    <i data-lucide="navigation" class="w-3 h-3"></i>
+                    View on Google Maps
+                </a>
+            </div>
+        </div>
+        <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p class="text-xs text-white/40">&copy; 2026 Rangechem (Pty) Ltd. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Privacy Policy</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">Terms of Use</a>
+                <a href="#" class="text-xs text-white/40 hover:text-white/70 transition-colors">POPIA Notice</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="js/quote.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) lucide.createIcons();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    });
+</script>
+
+</body>
+</html>
