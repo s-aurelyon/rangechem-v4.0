@@ -116,11 +116,11 @@
     </div>
 </div>
 
-<!-- ── Search + Filters ──────────────────────────────────── -->
+<!-- ── Search Sticky Bar ─────────────────────────────────── -->
 <div class="bg-white border-b border-gray-200 sticky top-[64px] z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center">
-            <div class="flex-1 min-w-0">
+            <div class="flex-1 min-w-0 w-full">
                 <div class="search-wrap">
                     <i data-lucide="search" class="search-icon w-4 h-4"></i>
                     <input type="text"
@@ -130,33 +130,44 @@
                            aria-label="Search all products">
                 </div>
             </div>
-            <div class="text-sm text-gray-500 font-600 whitespace-nowrap" id="result-count">15 products found</div>
-        </div>
-        <!-- Category filter pills -->
-        <div class="flex flex-wrap gap-2 mt-3">
-            <button class="filter-pill active" data-cat="" type="button">
-                All
-            </button>
-            <button class="filter-pill" data-cat="Detergents" type="button">
-                Detergents
-            </button>
-            <button class="filter-pill" data-cat="Degreasers" type="button">
-                Degreasers
-            </button>
-            <button class="filter-pill" data-cat="Disinfectants" type="button">
-                Disinfectants
-            </button>
+            <div class="text-sm text-gray-500 font-600 whitespace-nowrap" id="result-count">Loading products...</div>
         </div>
     </div>
 </div>
 
-<!-- ── Product Grid ──────────────────────────────────────── -->
+<!-- ── Main Layout ───────────────────────────────────────── -->
 <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="main-content">
-    <!-- Active search/filter tag banner -->
-    <div id="active-tags" class="hidden mb-6 flex items-center gap-2 flex-wrap"></div>
+    
+    <!-- Mobile swipeable category list (hidden on desktop) -->
+    <div class="lg:hidden mb-6">
+        <p class="text-[10px] font-800 text-rc-red uppercase tracking-wider mb-2">Browse Categories</p>
+        <div id="category-swiper-menu" class="flex gap-2 overflow-x-auto pb-3 scrollbar-none whitespace-nowrap" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <!-- Dynamic pills from products.js -->
+            <span class="text-xs text-gray-400">Loading categories...</span>
+        </div>
+    </div>
 
-    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Populated by products.js -->
+    <div class="flex flex-col lg:flex-row gap-10 items-start">
+        
+        <!-- Left: Category Sidebar (Desktop Only) -->
+        <aside class="hidden lg:block w-72 flex-shrink-0 sticky top-[150px] bg-gray-50/50 border border-gray-100 rounded-2xl p-5 shadow-sm max-h-[75vh] overflow-y-auto">
+            <p class="text-[10px] font-800 text-rc-red uppercase tracking-wider mb-4 px-2">Catalog Ranges</p>
+            <div id="category-sidebar-menu" class="flex flex-col gap-1">
+                <!-- Dynamic sidebar from products.js -->
+                <span class="text-xs text-gray-400 px-2">Loading categories...</span>
+            </div>
+        </aside>
+
+        <!-- Right: Dynamic Product Grid -->
+        <div class="flex-1 min-w-0 w-full">
+            <!-- Active search/filter tag banner -->
+            <div id="active-tags" class="hidden mb-6 flex items-center gap-2 flex-wrap"></div>
+
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <!-- Populated by products.js -->
+            </div>
+        </div>
+        
     </div>
 </main>
 

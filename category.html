@@ -213,51 +213,97 @@
 <script src="js/quote.js"></script>
 <script src="js/products.js"></script>
 <script>
-// ── Category meta ─────────────────────────────────────────
-const CAT_META = {
-    Detergents: {
-        icon: 'droplets',
-        iconBg: 'bg-blue-50',
-        iconColor: 'text-blue-600',
-        desc: 'High-performance detergents for every surface and application. From industrial floor cleaners to precision dishwash liquids, our range keeps your facility spotless.',
-    },
-    Degreasers: {
-        icon: 'zap',
-        iconBg: 'bg-green-50',
-        iconColor: 'text-green-600',
-        desc: 'Powerful degreasers formulated to dissolve oils, grease and carbon deposits from engines, kitchen equipment, workshop floors and more.',
-    },
-    Disinfectants: {
-        icon: 'shield-check',
-        iconBg: 'bg-purple-50',
-        iconColor: 'text-purple-600',
-        desc: 'Broad-spectrum disinfectants that eliminate bacteria, fungi and viruses. Formulations developed for public spaces.',
-    },
-};
+// ── Dynamic Category Meta Configurator ────────────────────
+const SLUG_MAP = { detergents: 'AUTOMOTIVE DETERGENTS', degreasers: 'DEGREASERS', disinfectants: 'BATHROOM DETERGENTS' };
 
-const SLUG_MAP = { detergents: 'Detergents', degreasers: 'Degreasers', disinfectants: 'Disinfectants' };
+function getCategoryMeta(categoryName) {
+    const cat = categoryName.toLowerCase();
+    
+    // 1. Detergents & Cleaning Liquids
+    if (cat.includes('detergent') || cat.includes('cleaner') || cat.includes('washroom') || cat.includes('personal care') || cat.includes('general purpose')) {
+        return {
+            icon: 'droplets',
+            iconBg: 'bg-blue-50',
+            iconColor: 'text-blue-600',
+            desc: `High-performance daily cleaning formulations for ${categoryName.toLowerCase()}. Engineered for consistent industrial sanitizing and spotless results.`
+        };
+    }
+    // 2. Degreasers & Heavy Solvents
+    else if (cat.includes('degreaser')) {
+        return {
+            icon: 'zap',
+            iconBg: 'bg-green-50',
+            iconColor: 'text-green-600',
+            desc: `Industrial-strength chemical degreasers built to dissolve heavy grease, carbon deposits, and grime for ${categoryName.toLowerCase()} applications.`
+        };
+    }
+    // 3. Janitorial Tools
+    else if (cat.includes('brush') || cat.includes('mop') || cat.includes('broom') || cat.includes('cloth') || cat.includes('tool') || cat.includes('handle')) {
+        return {
+            icon: 'brush',
+            iconBg: 'bg-orange-50',
+            iconColor: 'text-orange-600',
+            desc: `Heavy duty, durable cleaning equipment and tools designed specifically for industrial ${categoryName.toLowerCase()} tasks.`
+        };
+    }
+    // 4. Paper & Safety
+    else if (cat.includes('paper') || cat.includes('glove') || cat.includes('ppe') || cat.includes('bag')) {
+        return {
+            icon: 'shield-check',
+            iconBg: 'bg-purple-50',
+            iconColor: 'text-purple-600',
+            desc: `Essential industrial consumables, safety gear, and paper products for your facility's daily operations.`
+        };
+    }
+    
+    // Default
+    return {
+        icon: 'package',
+        iconBg: 'bg-gray-100',
+        iconColor: 'text-gray-600',
+        desc: `Explore our specialized ${categoryName.toLowerCase()} range, formulated and manufactured to demanding industrial standards.`
+    };
+}
 
-document.addEventListener('DOMContentLoaded', () => {
-    const params   = new URLSearchParams(location.search);
+document.addEventListener('DOMContentLoaded', async () => {
+    const params = new URLSearchParams(location.search);
     const typeSlug = params.get('type') || '';
-    const category = SLUG_MAP[typeSlug.toLowerCase()] || 'Detergents';
-    const meta     = CAT_META[category] || CAT_META.Detergents;
+    let category = params.get('category') || '';
+    
+    if (!category && typeSlug) {
+        category = SLUG_MAP[typeSlug.toLowerCase()] || 'AUTOMOTIVE DETERGENTS';
+    }
+    
+    if (!category) {
+        category = 'AUTOMOTIVE DETERGENTS';
+    }
+    
+    // Fetch meta configurations
+    const meta = getCategoryMeta(category);
 
     // Update page title & header
-    document.getElementById('page-title').textContent        = `${category} – Rangechem Industrial Cleaning`;
-    document.getElementById('cat-eyebrow').textContent       = 'Product Range';
-    document.getElementById('cat-title').textContent         = category;
-    document.getElementById('cat-desc').textContent          = meta.desc;
+    document.getElementById('page-title').textContent = `${category} – Rangechem Industrial Cleaning`;
+    document.getElementById('cat-eyebrow').textContent = 'Product Range';
+    document.getElementById('cat-title').textContent = category;
+    document.getElementById('cat-desc').textContent = meta.desc;
 
     // Category icon
     const iconWrap = document.getElementById('cat-icon-wrap');
-    iconWrap.className = `w-10 h-10 rounded-xl ${meta.iconBg} flex items-center justify-center`;
+    if (iconWrap) {
+        iconWrap.className = `w-10 h-10 rounded-xl ${meta.iconBg} flex items-center justify-center`;
+    }
     const iconEl = document.getElementById('cat-icon');
-    iconEl.setAttribute('data-lucide', meta.icon);
-    iconEl.className = `w-5 h-5 ${meta.iconColor}`;
+    if (iconEl) {
+        iconEl.setAttribute('data-lucide', meta.icon);
+        iconEl.className = `w-5 h-5 ${meta.iconColor}`;
+    }
 
-    // Highlight active nav link
-    const navMap = { Detergents: 'nav-det', Degreasers: 'nav-deg', Disinfectants: 'nav-dis' };
+    // Highlight active nav link in submenus
+    const navMap = { 
+        'AUTOMOTIVE DETERGENTS': 'nav-det', 
+        'DEGREASERS': 'nav-deg', 
+        'BATHROOM DETERGENTS': 'nav-dis' 
+    };
     const activeNavId = navMap[category];
     if (activeNavId) {
         document.getElementById('products.html') && document.getElementById('products.html').classList.remove('active');
@@ -265,21 +311,48 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeNav) activeNav.classList.add('active');
     }
 
-    // Other category links
+    // Load other categories dynamically
     const otherCats = document.getElementById('other-cats');
-    Object.entries(SLUG_MAP).forEach(([slug, label]) => {
-        if (label === category) return;
-        const m = CAT_META[label];
-        const a = document.createElement('a');
-        a.href = `category.html?type=${slug}`;
-        a.className = 'filter-pill-dark';
-        a.innerHTML = `<i data-lucide="${m.icon}" class="w-3.5 h-3.5"></i> ${label}`;
-        otherCats.appendChild(a);
-    });
+    if (otherCats) {
+        try {
+            const response = await fetch('/api/categories');
+            if (response.ok) {
+                const categories = await response.json();
+                otherCats.innerHTML = '';
+                
+                // Get 3 random categories that are not the current one and have products
+                const filtered = categories.filter(c => c.name.toLowerCase() !== category.toLowerCase() && c.product_count > 0);
+                const randomCats = filtered.sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                randomCats.forEach(cat => {
+                    const m = getCategoryMeta(cat.name);
+                    const a = document.createElement('a');
+                    a.href = `category.html?category=${encodeURIComponent(cat.name)}`;
+                    a.className = 'filter-pill-dark';
+                    a.innerHTML = `<i data-lucide="${m.icon}" class="w-3.5 h-3.5"></i> ${cat.name}`;
+                    otherCats.appendChild(a);
+                });
+            }
+            if (window.lucide) lucide.createIcons();
+        } catch (err) {
+            console.error("Failed to load other category links dynamically:", err);
+        }
+    }
 
     // Update search placeholder
     const searchEl = document.getElementById('product-search');
-    if (searchEl) searchEl.placeholder = `Search within ${category}…`;
+    if (searchEl) {
+        searchEl.placeholder = `Search within ${category.toLowerCase()}…`;
+        // Make the filter dynamic in products.js by updating URL if search is typed
+        searchEl.addEventListener('input', function() {
+            const val = this.value.trim();
+            const params = new URLSearchParams(location.search);
+            if (val) params.set('search', val);
+            else params.delete('search');
+            params.set('category', category);
+            history.replaceState({}, '', '?' + params.toString());
+        });
+    }
 
     if (window.lucide) lucide.createIcons();
 });

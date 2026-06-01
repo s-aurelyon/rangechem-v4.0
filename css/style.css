@@ -962,3 +962,49 @@ html {
     transform: translateX(3px);
     box-shadow: 0 4px 14px rgba(214, 49, 33, 0.4);
 }
+
+/* ── Sidebar Category Links & Scrollbars ────────────────── */
+.cat-sidebar-link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--rc-gray-700);
+    border-radius: var(--rc-radius);
+    transition: all var(--rc-transition);
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.cat-sidebar-link:hover {
+    background: var(--rc-gray-100);
+    color: var(--rc-primary);
+}
+
+.cat-sidebar-link.active {
+    background: var(--rc-primary);
+    color: #ffffff;
+}
+
+.cat-sidebar-link.active span {
+    color: #ffffff;
+}
+
+.cat-sidebar-link.active .bg-gray-100 {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+}
+
+/* Hide scrollbar utility for mobile swiper */
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

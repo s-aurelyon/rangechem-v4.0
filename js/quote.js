@@ -1,7 +1,8 @@
 // ============================================================
-// js/quote.js — Quote Cart (localStorage)
+// js/quote.js — Dynamic Quote Cart State Manager (localStorage)
 // ============================================================
-// Cart item shape: { id, name, category }
+// Cart item shape:
+// { productId, key, name, category, size, price, stockCode, quantity }
 // ============================================================
 
 (function () {
@@ -9,7 +10,7 @@
 
     const STORAGE_KEY = 'rangechem_quote_cart';
 
-    // ── Helpers ────────────────────────────────────────────
+    // ── Load cart from localStorage ────────────────────────
     function getCart() {
         try {
             return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
@@ -18,34 +19,62 @@
         }
     }
 
+    // ── Save cart to localStorage ──────────────────────────
     function saveCart(cart) {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
     }
 
     // ── Add to Cart ────────────────────────────────────────
-    function addToCart(id, name, category) {
+    function addToCart(productId, name, category, size, price, stockCode, quantity = 1) {
         const cart = getCart();
-        if (cart.some(item => item.id === id)) return false;
-        cart.push({ id, name, category });
+        productId = parseInt(productId);
+        quantity = parseInt(quantity) || 1;
+        
+        // Composite key: e.g. "12_5lt"
+        const key = `${productId}_${size}`;
+        const existingIndex = cart.findIndex(item => item.key === key);
+
+        if (existingIndex > -1) {
+            cart[existingIndex].quantity += quantity;
+        } else {
+            cart.push({
+                productId,
+                key,
+                name,
+                category,
+                size,
+                price: price !== null ? parseFloat(price) : null,
+                stockCode: stockCode || null,
+                quantity
+            });
+        }
+
         saveCart(cart);
         updateBadge();
-        showToast(`"${name}" added to quote.`);
-
-        // Update all matching buttons on the page
-        document.querySelectorAll(`.btn-add-quote[data-id="${id}"]`).forEach(btn => {
-            btn.classList.add('added');
-            btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> In Quote`;
-            if (window.lucide) lucide.createIcons();
-        });
+        showToast(`"${name}" (${size}) added to quote.`);
+        syncButtons();
 
         return true;
     }
 
     // ── Remove from Cart ───────────────────────────────────
-    function removeFromCart(productId) {
-        const cart = getCart().filter(item => item.id !== productId);
+    function removeFromCart(key) {
+        const cart = getCart().filter(item => item.key !== key);
         saveCart(cart);
         updateBadge();
+        syncButtons();
+        return cart;
+    }
+
+    // ── Update Quantity ────────────────────────────────────
+    function updateQuantity(key, quantity) {
+        const cart = getCart();
+        const item = cart.find(i => i.key === key);
+        if (item) {
+            item.quantity = Math.max(1, parseInt(quantity) || 1);
+            saveCart(cart);
+            updateBadge();
+        }
         return cart;
     }
 
@@ -53,23 +82,27 @@
     function clearCart() {
         localStorage.removeItem(STORAGE_KEY);
         updateBadge();
+        syncButtons();
     }
 
     // ── Badge Count ────────────────────────────────────────
+    // Sum of quantities in cart
     function updateBadge() {
         const els = document.querySelectorAll('.quote-count');
-        const count = getCart().length;
+        const cart = getCart();
+        const totalQty = cart.reduce((sum, item) => sum + item.quantity, 0);
+
         els.forEach(el => {
-            el.textContent = count;
-            el.style.display = count === 0 ? 'none' : '';
+            el.textContent = totalQty;
+            el.style.display = totalQty === 0 ? 'none' : '';
             el.classList.remove('bump');
-            void el.offsetWidth;
+            void el.offsetWidth; // Trigger reflow
             el.classList.add('bump');
             setTimeout(() => el.classList.remove('bump'), 400);
         });
     }
 
-    // ── Toast ──────────────────────────────────────────────
+    // ── Toast Notification ─────────────────────────────────
     function showToast(message, type = 'success') {
         const container = document.getElementById('toast-container');
         if (!container) return;
@@ -85,10 +118,49 @@
 
         if (window.lucide) lucide.createIcons();
 
-        setTimeout(() => toast.remove(), 3000);
+        // Animate out and remove
+        setTimeout(() => {
+            toast.style.animation = 'toastOut 300ms ease forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
     }
 
-    // ── Delegate click handling ────────────────────────────
+    // ── Sync Add-to-Quote Button States ───────────────────
+    // Reads page cards, identifies active selections, and styles buttons
+    function syncButtons() {
+        const cart = getCart();
+
+        document.querySelectorAll('.product-card').forEach(card => {
+            const btn = card.querySelector('.btn-add-quote');
+            if (!btn) return;
+
+            const productId = btn.dataset.id;
+            const selectEl = card.querySelector('.variant-select');
+            
+            // Get selected size from dropdown
+            let selectedSize = '';
+            if (selectEl) {
+                selectedSize = selectEl.value;
+            } else {
+                selectedSize = btn.dataset.size || '';
+            }
+
+            const compositeKey = `${productId}_${selectedSize}`;
+            const inCart = cart.some(item => item.key === compositeKey);
+
+            if (inCart) {
+                btn.classList.add('added');
+                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> In Quote`;
+            } else {
+                btn.classList.remove('added');
+                btn.innerHTML = `<i data-lucide="plus" class="w-3.5 h-3.5"></i> Add to Quote`;
+            }
+        });
+
+        if (window.lucide) lucide.createIcons();
+    }
+
+    // ── Delegate Click Handling ───────────────────────────
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn-add-quote');
         if (!btn) return;
@@ -99,44 +171,46 @@
 
         if (!id) return;
 
-        if (btn.classList.contains('added')) {
-            // Toggle: remove from quote
-            removeFromCart(id);
-            document.querySelectorAll(`.btn-add-quote[data-id="${id}"]`).forEach(b => {
-                b.classList.remove('added');
-                b.innerHTML = `<i data-lucide="plus" class="w-3.5 h-3.5"></i> Add to Quote`;
-            });
-            if (window.lucide) lucide.createIcons();
-            showToast(`"${name}" removed from quote.`, 'info');
+        // Find the variant details from dropdown or button datasets
+        const card = btn.closest('.product-card');
+        const selectEl = card ? card.querySelector('.variant-select') : null;
+        const qtyEl = card ? card.querySelector('.quantity-input') : null;
+        
+        let size = '';
+        let price = null;
+        let stockCode = '';
+        let quantity = qtyEl ? (parseInt(qtyEl.value) || 1) : 1;
+
+        if (selectEl) {
+            const selectedOpt = selectEl.options[selectEl.selectedIndex];
+            size = selectEl.value;
+            price = selectedOpt.dataset.price ? parseFloat(selectedOpt.dataset.price) : null;
+            stockCode = selectedOpt.dataset.stock || '';
         } else {
-            addToCart(id, name, category);
+            size = btn.dataset.size || '';
+            price = btn.dataset.price ? parseFloat(btn.dataset.price) : null;
+            stockCode = btn.dataset.stock || '';
+        }
+
+        const compositeKey = `${id}_${size}`;
+
+        if (btn.classList.contains('added')) {
+            // Remove from cart
+            removeFromCart(compositeKey);
+            showToast(`"${name}" (${size}) removed from quote.`, 'info');
+        } else {
+            // Add to cart
+            addToCart(id, name, category, size, price, stockCode, quantity);
         }
     });
 
-    // ── Sync all button states from cart ─────────────────────
-    function syncButtons() {
-        const cart = getCart();
-        document.querySelectorAll('.btn-add-quote').forEach(btn => {
-            const id = btn.dataset.id;
-            const inCart = cart.some(item => String(item.id) === String(id));
-            if (inCart) {
-                btn.classList.add('added');
-                btn.innerHTML = `<i data-lucide="check" class="w-3.5 h-3.5"></i> In Quote`;
-            } else {
-                btn.classList.remove('added');
-                btn.innerHTML = `<i data-lucide="plus" class="w-3.5 h-3.5"></i> Add to Quote`;
-            }
-        });
-        if (window.lucide) lucide.createIcons();
-    }
-
-    // ── Init ───────────────────────────────────────────────
+    // ── Init on page load ──────────────────────────────────
     document.addEventListener('DOMContentLoaded', function () {
         updateBadge();
         syncButtons();
     });
 
-    // Re-sync when returning via browser back/forward cache
+    // Re-sync when returning via browser cache (back/forward button)
     window.addEventListener('pageshow', function (e) {
         if (e.persisted) {
             updateBadge();
@@ -144,11 +218,12 @@
         }
     });
 
-    // ── Expose API globally ────────────────────────────────
+    // Expose API globally
     window.RangechemQuote = {
         getCart,
         addToCart,
         removeFromCart,
+        updateQuantity,
         clearCart,
         updateBadge,
         syncButtons,

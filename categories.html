@@ -328,6 +328,26 @@
     </div>
 </section>
 
+<!-- ══════════════════════════════════════════════════════════
+     ALL CATALOGUE RANGES (DYNAMIC)
+     ═══════════════════════════════════════════════════════════ -->
+<section class="py-24 bg-gray-50 border-t border-gray-100" id="all-ranges" aria-labelledby="all-ranges-heading">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16">
+            <span class="section-eyebrow">Complete Catalogue</span>
+            <h2 class="section-title" id="all-ranges-heading">Browse by <span>Department</span></h2>
+            <p class="text-gray-500 text-sm max-w-xl mx-auto mt-3 leading-relaxed">
+                Explore our full spectrum of specialized product ranges, manufactured locally to industrial grade standards.
+            </p>
+        </div>
+        
+        <div id="dynamic-categories-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Populated dynamically via script -->
+            <div class="col-span-full text-center text-xs text-gray-400">Loading departments...</div>
+        </div>
+    </div>
+</section>
+
 <!-- ── CTA Banner ─────────────────────────────────────────── -->
 <section class="py-20 bg-rc-primary relative overflow-hidden" aria-label="Call to action">
     <div class="absolute -top-20 -right-20 w-96 h-96 rounded-full bg-rc-red/10 pointer-events-none"></div>
@@ -361,8 +381,8 @@
                 <a href="index.html" class="nav-logo mb-4 inline-flex">RANGE<span>CHEM</span></a>
                 <p class="text-sm leading-relaxed text-white/60 max-w-sm mt-3">
                     The Western Cape's trusted supplier of industrial-grade cleaning chemicals.
-                    We serve manufacturing, hospitality and municipal sectors
-                    with solutions built for demanding operational environments.
+                    We serve manufacturing, hospitality and municipal sectors with solutions built
+                    for demanding operational environments.
                 </p>
                 <div class="flex gap-3 mt-5">
                 </div>
@@ -389,9 +409,7 @@
                 </div>
                 <div class="flex items-start gap-2 mb-4">
                     <i data-lucide="map-pin" class="w-4 h-4 text-rc-red mt-0.5 flex-shrink-0"></i>
-                    <span class="text-sm text-white/60 leading-relaxed">
-                        Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560
-                    </span>
+                    <span class="text-sm text-white/60 leading-relaxed">Professional House, Old Paarl Rd &amp; Lood St,<br>Brackenfell, Cape Town, 7560</span>
                 </div>
                 <a href="https://maps.google.com/?q=Professional+House,Old+Paarl+Rd,Lood+St,Brackenfell,Cape+Town,7560"
                    target="_blank" rel="noopener noreferrer"
@@ -414,20 +432,61 @@
 
 <script src="js/quote.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        if (window.lucide) lucide.createIcons();
+document.addEventListener('DOMContentLoaded', async () => {
+    if (window.lucide) lucide.createIcons();
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
+    // ── Setup scroll animations ──
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ── Populate dynamic categories ──
+    const grid = document.getElementById('dynamic-categories-grid');
+    if (grid) {
+        try {
+            const response = await fetch('/api/categories');
+            if (!response.ok) throw new Error('API failed');
+            const categories = await response.json();
+            
+            grid.innerHTML = '';
+            categories.forEach((cat, idx) => {
+                if (cat.product_count === 0) return;
+                
+                const card = document.createElement('a');
+                card.href = `products.html?category=${encodeURIComponent(cat.name)}`;
+                card.className = 'group p-6 bg-white border border-gray-200/80 rounded-2xl flex flex-col justify-between hover:border-rc-red/30 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 relative overflow-hidden fade-up';
+                card.style.transitionDelay = `${Math.min(idx * 15, 200)}ms`;
+                
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gray-50 rounded-full translate-x-8 -translate-y-8 group-hover:bg-red-50/50 transition-colors duration-300"></div>
+                    <div class="relative z-10">
+                        <div class="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-gray-700 group-hover:bg-rc-red group-hover:text-white transition-all duration-300 mb-4 shadow-sm">
+                            <i data-lucide="package" class="w-5 h-5"></i>
+                        </div>
+                        <h3 class="text-xs font-900 text-gray-900 group-hover:text-rc-red transition-colors duration-200 tracking-tight leading-tight uppercase mb-1 truncate" title="${cat.name}">${cat.name}</h3>
+                        <p class="text-[11px] text-gray-400 font-600">${cat.product_count} product${cat.product_count !== 1 ? 's' : ''}</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-[10px] font-800 text-rc-red uppercase tracking-wider mt-6 relative z-10 group-hover:translate-x-1.5 transition-transform duration-200">
+                        View Range <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                    </div>
+                `;
+                grid.appendChild(card);
+                observer.observe(card);
             });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-    });
+            
+            if (window.lucide) lucide.createIcons();
+        } catch (err) {
+            console.error("Failed to populate dynamic categories:", err);
+            grid.innerHTML = '<div class="col-span-full text-center text-xs text-red-500 font-500">Failed to load additional categories.</div>';
+        }
+    }
+});
 </script>
-
 </body>
 </html>

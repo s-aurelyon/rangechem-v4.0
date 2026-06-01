@@ -284,7 +284,6 @@
     </div>
 </footer>
 
-<script src="js/products-data.js"></script>
 <script src="js/quote.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -294,11 +293,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const emptyEl   = document.getElementById('cart-empty-state');
     const footerEl  = document.getElementById('cart-footer');
     const countEl   = document.getElementById('cart-total-count');
-    const cartInput = document.getElementById('cart-data');
     const form      = document.getElementById('quote-form');
     const clearBtn  = document.getElementById('clear-cart-btn');
 
     function escHtml(str) {
+        if (!str) return '';
         return String(str)
             .replace(/&/g, '&amp;').replace(/</g, '&lt;')
             .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -306,7 +305,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderCart() {
         const cart = window.RangechemQuote ? RangechemQuote.getCart() : [];
-        if (cartInput) cartInput.value = JSON.stringify(cart);
         if (!listEl) return;
         listEl.innerHTML = '';
 
@@ -318,51 +316,153 @@ document.addEventListener('DOMContentLoaded', function () {
 
         emptyEl && (emptyEl.style.display = 'none');
         footerEl && footerEl.classList.remove('hidden');
-        if (countEl) countEl.textContent = cart.length;
+
+        let totalEstimatedPrice = 0;
+        let totalItemsQty = 0;
 
         cart.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'quote-item';
+            div.className = 'quote-item flex flex-col sm:flex-row sm:items-center justify-between p-4 bg-gray-50 border border-gray-200 rounded-xl gap-4';
+            
+            const hasPrice = item.price !== null && item.price !== undefined;
+            const lineSubtotal = hasPrice ? (item.price * item.quantity) : 0;
+            if (hasPrice) {
+                totalEstimatedPrice += lineSubtotal;
+            }
+            totalItemsQty += item.quantity;
+
             div.innerHTML = `
                 <div class="flex-1 min-w-0">
-                    <p class="text-sm font-700 text-gray-900 truncate">${escHtml(item.name)}</p>
-                    <p class="text-xs text-gray-400 mt-0.5">${escHtml(item.category)}</p>
+                    <p class="text-sm font-800 text-gray-900 leading-snug">${escHtml(item.name)}</p>
+                    <p class="text-xs text-gray-500 mt-1 flex items-center gap-1.5 flex-wrap">
+                        <span class="px-2 py-0.5 bg-gray-200/60 rounded text-gray-700 text-[10px] font-700 uppercase">${escHtml(item.category)}</span>
+                        ${item.stockCode ? `<span>Stock: <strong class="text-gray-700 font-700">${escHtml(item.stockCode)}</strong></span>` : ''}
+                        <span>Size: <strong class="text-gray-700 font-700">${escHtml(item.size)}</strong></span>
+                    </p>
                 </div>
-                <button class="quote-item-remove" type="button"
-                        data-id="${escHtml(String(item.id))}"
-                        aria-label="Remove ${escHtml(item.name)} from cart">
-                    <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
-                </button>`;
+                
+                <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
+                    <!-- Unit Price -->
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-400 font-700 uppercase leading-none">Unit Price</p>
+                        <p class="text-xs font-700 text-gray-700 mt-1">${hasPrice ? `R ${parseFloat(item.price).toFixed(2)}` : 'TBD'}</p>
+                    </div>
+
+                    <!-- Quantity Inputs -->
+                    <div class="flex items-center border border-gray-200 rounded-lg p-0.5 bg-white shadow-sm">
+                        <button type="button" class="btn-qty-dec w-7 h-7 text-xs font-bold text-gray-500 hover:text-gray-900 flex items-center justify-center rounded" data-key="${escHtml(item.key)}">-</button>
+                        <input type="number" class="quantity-input w-8 text-center text-xs font-800 bg-transparent border-none outline-none p-0" value="${item.quantity}" min="1" data-key="${escHtml(item.key)}">
+                        <button type="button" class="btn-qty-inc w-7 h-7 text-xs font-bold text-gray-500 hover:text-gray-900 flex items-center justify-center rounded" data-key="${escHtml(item.key)}">+</button>
+                    </div>
+
+                    <!-- Line Subtotal -->
+                    <div class="text-right min-w-[70px]">
+                        <p class="text-[10px] text-gray-400 font-700 uppercase leading-none">Subtotal</p>
+                        <p class="text-xs font-900 text-gray-900 mt-1">${hasPrice ? `R ${parseFloat(lineSubtotal).toFixed(2)}` : 'TBD'}</p>
+                    </div>
+
+                    <!-- Remove Button -->
+                    <button class="quote-item-remove text-gray-400 hover:text-rc-red p-1.5 rounded-lg hover:bg-red-50/50 transition-colors" type="button"
+                            data-key="${escHtml(item.key)}"
+                            aria-label="Remove ${escHtml(item.name)} from cart">
+                        <i data-lucide="x" class="w-4 h-4 pointer-events-none"></i>
+                    </button>
+                </div>
+            `;
             listEl.appendChild(div);
         });
 
+        // Update Total Items count badge
+        if (countEl) countEl.textContent = totalItemsQty;
+
+        // Render reference estimated subtotal & total
+        let summaryCard = document.getElementById('cart-summary-totals');
+        if (!summaryCard) {
+            summaryCard = document.createElement('div');
+            summaryCard.id = 'cart-summary-totals';
+            summaryCard.className = 'mt-5 p-4 bg-gray-50 border border-gray-200/80 rounded-xl space-y-2';
+            footerEl.insertBefore(summaryCard, clearBtn);
+        }
+
+        summaryCard.innerHTML = `
+            <div class="flex justify-between text-xs text-gray-500 font-600">
+                <span>Estimated Items Subtotal</span>
+                <span>R ${totalEstimatedPrice.toFixed(2)}</span>
+            </div>
+            <div class="flex justify-between text-xs text-gray-500 font-600 pb-2 border-b border-gray-200">
+                <span>Estimated Packaging & Handing</span>
+                <span class="text-green-600 font-700">FREE</span>
+            </div>
+            <div class="flex justify-between items-center text-sm font-900 text-gray-900 pt-1">
+                <span>Estimated Total Value</span>
+                <span class="text-rc-red text-base">R ${totalEstimatedPrice.toFixed(2)}</span>
+            </div>
+        `;
+
         if (window.lucide) lucide.createIcons();
+
+        // Bind interactive element event listeners
+        listEl.querySelectorAll('.btn-qty-dec').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.dataset.key;
+                const cart = RangechemQuote.getCart();
+                const item = cart.find(i => i.key === key);
+                if (item) {
+                    RangechemQuote.updateQuantity(key, item.quantity - 1);
+                    renderCart();
+                }
+            });
+        });
+
+        listEl.querySelectorAll('.btn-qty-inc').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const key = btn.dataset.key;
+                const cart = RangechemQuote.getCart();
+                const item = cart.find(i => i.key === key);
+                if (item) {
+                    RangechemQuote.updateQuantity(key, item.quantity + 1);
+                    renderCart();
+                }
+            });
+        });
+
+        listEl.querySelectorAll('.quantity-input').forEach(input => {
+            input.addEventListener('change', function () {
+                let qty = parseInt(this.value) || 1;
+                if (qty < 1) qty = 1;
+                RangechemQuote.updateQuantity(this.dataset.key, qty);
+                renderCart();
+            });
+        });
 
         listEl.querySelectorAll('.quote-item-remove').forEach(btn => {
             btn.addEventListener('click', () => {
-                if (window.RangechemQuote) RangechemQuote.removeFromCart(btn.dataset.id);
+                if (window.RangechemQuote) RangechemQuote.removeFromCart(btn.dataset.key);
                 renderCart();
             });
         });
     }
 
-    // ── Form submit (frontend-only: validate + show success) ──
+    // ── Form submit POST to FastAPI Backend SQLite tables ─────
     if (form) {
-        form.addEventListener('submit', function (e) {
+        form.addEventListener('submit', async function (e) {
             e.preventDefault();
             const errors = [];
             const name    = document.getElementById('name').value.trim();
             const company = document.getElementById('company').value.trim();
             const email   = document.getElementById('email').value.trim();
+            const phone   = document.getElementById('phone').value.trim();
+            const message = document.getElementById('message').value.trim();
             const cart    = window.RangechemQuote ? RangechemQuote.getCart() : [];
 
-            if (name.length < 2)         errors.push('Please enter your full name.');
-            if (company.length < 2)      errors.push('Please enter your company name.');
+            if (name.length < 2)         errors.push('Please enter your full name (minimum 2 characters).');
+            if (company.length < 2)      errors.push('Please enter your company / organization name.');
             if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.push('Please enter a valid email address.');
-            if (cart.length === 0)       errors.push('Your quote cart is empty. Please add products first.');
+            if (cart.length === 0)       errors.push('Your quote cart is empty. Please add products from the catalog first.');
 
             const errorBanner = document.getElementById('error-banner');
             const errorList   = document.getElementById('error-list');
+            const submitBtn   = document.getElementById('submit-quote-btn');
 
             if (errors.length > 0) {
                 errorList.innerHTML = errors.map(e => `<li>${escHtml(e)}</li>`).join('');
@@ -373,19 +473,69 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             errorBanner.classList.add('hidden');
+            
+            // Format cart payload for backend validation
+            const cartPayload = cart.map(item => ({
+                productId: parseInt(item.productId),
+                stockCode: item.stockCode || null,
+                size: item.size,
+                price: item.price !== null ? parseFloat(item.price) : null,
+                quantity: parseInt(item.quantity)
+            }));
 
-            // Show success state
-            document.getElementById('form-layout').classList.add('hidden');
-            document.getElementById('success-state').classList.remove('hidden');
-            if (window.RangechemQuote) RangechemQuote.clearCart();
-            if (window.lucide) lucide.createIcons();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const payload = {
+                name,
+                company,
+                email,
+                phone: phone || null,
+                message: message || null,
+                cart: cartPayload
+            };
+
+            // Toggle submit loading state
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = `<svg class="animate-spin h-5 w-5 mr-3 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Sending Request...`;
+            }
+
+            try {
+                // Submit quote request dynamically to FastAPI /api/quote
+                const response = await fetch('/api/quote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.detail || 'Failed to submit quote request. Please try again.');
+                }
+
+                // Show success state
+                document.getElementById('form-layout').classList.add('hidden');
+                document.getElementById('success-state').classList.remove('hidden');
+                
+                if (window.RangechemQuote) RangechemQuote.clearCart();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+            } catch (err) {
+                console.error("Submission Error:", err);
+                errorList.innerHTML = `<li><strong>Submission Error:</strong> ${escHtml(err.message)}</li>`;
+                errorBanner.classList.remove('hidden');
+                errorBanner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = `<i data-lucide="send" class="w-4 h-4"></i> Send Quote Request`;
+                }
+                if (window.lucide) lucide.createIcons();
+            }
         });
     }
 
     if (clearBtn) {
         clearBtn.addEventListener('click', () => {
-            if (confirm('Clear all items from your quote cart?')) {
+            if (confirm('Are you sure you want to clear all items from your quote cart?')) {
                 if (window.RangechemQuote) RangechemQuote.clearCart();
                 renderCart();
             }
